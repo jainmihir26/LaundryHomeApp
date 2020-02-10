@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapsActivity">
+
+    <fragment
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/map"
+        tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        tools:ignore="RedundantNamespace" />
+
+    <RelativeLayout android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:id="@+id/map_RelativeLayout"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/white"
+        >
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:id="@+id/map_searchImageId"
+            android:src="@drawable/ic_search_black_24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/map_inputTextId"
+            android:layout_toRightOf="@+id/map_searchImageId"
+            android:layout_marginLeft="10dp"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:hint="Enter address or zip code "
+            android:imeOptions="actionSearch"
+            android:layout_marginStart="2dp"
+            android:maxLines="1"
+            android:inputType="text"
+            />
+    </RelativeLayout>
+
+    <ImageView android:layout_height="40dp"
+        android:layout_width="40dp"
+        android:id="@+id/map_mGpsId"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/map_RelativeLayout"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_gps_fixed_black_24dp"
+        tools:ignore="ContentDescription,NotSibling" />
+
+    <EditText android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:id="@+id/map_mainAddressId"
+        android:layout_below="@+id/map"
+        android:layout_marginTop="20dp"
+        android:hint="Main Address"
+        />
+
+    <EditText android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:id="@+id/map_apartmentNameId"
+        android:layout_below="@+id/map_mainAddressId"
+        android:hint="Apt,flat or floor number"
+        android:textColorHint="@color/grey"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <EditText android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:id="@+id/map_landmarkId"
+        android:layout_below="@+id/map_apartmentNameId"
+        android:hint="Landmark"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <EditText android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:id="@+id/map_businessOrBuildingNameId"
+        android:layout_below="@+id/map_landmarkId"
+        android:hint="Business or Building Name"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <EditText android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:id="@+id/map_areaOrDistrictId"
+        android:layout_below="@+id/map_businessOrBuildingNameId"
+        android:hint="Area/District"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <Button android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:id="@+id/map_saveButton"
+        android:background="@drawable/button_shape"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/map_areaOrDistrictId"
+        android:textColor="@color/green_light"
+        android:text="Save"
+        android:layout_marginTop="20dp"
+        />
+
+</RelativeLayout>
