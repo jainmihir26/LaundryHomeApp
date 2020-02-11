@@ -1,19 +1,17 @@
-package com.example.stet;
+package com.example.stet.Adapters;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import androidx.annotation.RequiresApi;
 
-
+import com.example.stet.Models.HomeModel;
+import com.example.stet.R;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class HomeAdapter extends BaseAdapter {
 

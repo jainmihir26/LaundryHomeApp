@@ -1,4 +1,4 @@
-package com.example.stet;
+package com.example.stet.Helper;
 
 public class ServiceIronData {
     public static String[] clothArrayTop = {"T-Shirt","Shirt","Kurta"};

@@ -1,4 +1,4 @@
-package com.example.stet;
+package com.example.stet.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

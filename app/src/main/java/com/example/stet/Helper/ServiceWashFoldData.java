@@ -1,8 +1,8 @@
-package com.example.stet;
+package com.example.stet.Helper;
 
-public class ServiceWashIronData {
+public class ServiceWashFoldData {
     public static String[] clothArrayTop = {"T-Shirt","Shirt","Kurta"};
-    public static String[] priceArrayTop = {"20","20","20"};
+    public static String[] priceArrayTop = {"10","15","20"};
     public static String[] clothArrayBottom = {"Lower","Track-Paints","Trousers"};
     public static String[] priceArrayBottom = {"10","15","20"};
     public static String[] clothArrayHousehold = {"T-Shirt","Shirt","Kurta"};
@@ -10,9 +10,9 @@ public class ServiceWashIronData {
     public static String[] clothArrayDress = {"Lower","Track-Paints","Trousers"};
     public static String[] priceArrayDress = {"20","25","50"};
 
-
     public static String[] idTop = {"1","2","3"};
     public static String[] idBottom = {"1","2","3"};
     public static String[] idHousehold = {"1","2","3"};
     public static String[] idDress = {"1","2","3"};
+
 }

@@ -1,8 +1,8 @@
-package com.example.stet;
+package com.example.stet.Helper;
 
-public class ServiceDryCleanData {
+public class ServiceWashIronData {
     public static String[] clothArrayTop = {"T-Shirt","Shirt","Kurta"};
-    public static String[] priceArrayTop = {"10","15","20"};
+    public static String[] priceArrayTop = {"20","20","20"};
     public static String[] clothArrayBottom = {"Lower","Track-Paints","Trousers"};
     public static String[] priceArrayBottom = {"10","15","20"};
     public static String[] clothArrayHousehold = {"T-Shirt","Shirt","Kurta"};

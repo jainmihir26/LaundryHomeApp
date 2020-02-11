@@ -1,4 +1,4 @@
-package com.example.stet;
+package com.example.stet.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.stet.Fragment.AccountFragment;
+import com.example.stet.Fragment.CartFragment;
+import com.example.stet.Fragment.HomeFragment;
+import com.example.stet.Fragment.OfferFragment;
+import com.example.stet.Fragment.OrderFragment;
+import com.example.stet.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {

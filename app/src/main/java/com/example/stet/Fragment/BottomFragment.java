@@ -1,4 +1,4 @@
-package com.example.stet;
+package com.example.stet.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,13 +12,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stet.Helper.ServiceTypes;
+import com.example.stet.Models.DataClothSelector;
+import com.example.stet.R;
+import com.example.stet.Helper.ServiceDryCleanData;
+import com.example.stet.Helper.ServiceIronData;
+import com.example.stet.Helper.ServiceWashFoldData;
+import com.example.stet.Helper.ServiceWashIronData;
+
 import java.util.ArrayList;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HouseholdFragment extends Fragment {
+public class BottomFragment extends Fragment {
 
 
     private ProgressBar mProgressBarLoading;
@@ -28,23 +36,23 @@ public class HouseholdFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_household, container, false);
-        mRecyclerView = view.findViewById(R.id.recycler_view_fragment_household);
-        mProgressBarLoading = view.findViewById(R.id.progress_bar_household);
+        View view = inflater.inflate(R.layout.fragment_bottom, container, false);
+        mRecyclerView = view.findViewById(R.id.recycler_view_fragment_bottom);
+        mProgressBarLoading = view.findViewById(R.id.progress_bar_bottom);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
         ArrayList<DataClothSelector> data = new ArrayList<>();
-        switch(Helper.service_type){
+        switch(ServiceTypes.service_type){
             case "wash_fold":
-                for(int i=0;i<ServiceWashFoldData.idHousehold.length;i++){
+                for(int i = 0; i< ServiceWashFoldData.idBottom.length; i++){
                     data.add(
                             new DataClothSelector(
-                                    ServiceWashFoldData.idHousehold[i],
-                                    ServiceWashFoldData.clothArrayHousehold[i],
-                                    ServiceWashFoldData.priceArrayHousehold[i]
+                                    ServiceWashFoldData.idBottom[i],
+                                    ServiceWashFoldData.clothArrayBottom[i],
+                                    ServiceWashFoldData.priceArrayBottom[i]
                             )
                     );
                 }
@@ -52,12 +60,12 @@ public class HouseholdFragment extends Fragment {
                 mRecyclerView.setAdapter(mListadapter);
                 break;
             case "wash_iron":
-                for(int i=0;i<ServiceWashIronData.idHousehold.length;i++){
+                for(int i = 0; i< ServiceWashIronData.idBottom.length; i++){
                     data.add(
                             new DataClothSelector(
-                                    ServiceWashIronData.idHousehold[i],
-                                    ServiceWashIronData.clothArrayHousehold[i],
-                                    ServiceWashIronData.priceArrayHousehold[i]
+                                    ServiceWashIronData.idBottom[i],
+                                    ServiceWashIronData.clothArrayBottom[i],
+                                    ServiceWashIronData.priceArrayBottom[i]
                             )
                     );
                 }
@@ -65,12 +73,12 @@ public class HouseholdFragment extends Fragment {
                 mRecyclerView.setAdapter(mListadapter);
                 break;
             case "iron":
-                for(int i=0;i<ServiceIronData.idHousehold.length;i++){
+                for(int i = 0; i< ServiceIronData.idBottom.length; i++){
                     data.add(
                             new DataClothSelector(
-                                    ServiceIronData.idHousehold[i],
-                                    ServiceIronData.clothArrayHousehold[i],
-                                    ServiceIronData.priceArrayHousehold[i]
+                                    ServiceIronData.idBottom[i],
+                                    ServiceIronData.clothArrayBottom[i],
+                                    ServiceIronData.priceArrayBottom[i]
                             )
                     );
                 }
@@ -78,12 +86,12 @@ public class HouseholdFragment extends Fragment {
                 mRecyclerView.setAdapter(mListadapter);
                 break;
             case "dry_clean":
-                for(int i=0;i<ServiceDryCleanData.idHousehold.length;i++){
+                for(int i = 0; i< ServiceDryCleanData.idBottom.length; i++){
                     data.add(
                             new DataClothSelector(
-                                    ServiceDryCleanData.idHousehold[i],
-                                    ServiceDryCleanData.clothArrayHousehold[i],
-                                    ServiceDryCleanData.priceArrayHousehold[i]
+                                    ServiceDryCleanData.idBottom[i],
+                                    ServiceDryCleanData.clothArrayBottom[i],
+                                    ServiceDryCleanData.priceArrayBottom[i]
                             )
                     );
                 }
@@ -155,5 +163,6 @@ public class HouseholdFragment extends Fragment {
         }
     }
 }
+
 
 

@@ -1,4 +1,4 @@
-package com.example.stet;
+package com.example.stet.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.stet.Activities.ClothSelectActivity;
+import com.example.stet.Helper.ServiceTypes;
+import com.example.stet.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,15 +41,15 @@ public class LandingActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Helper.service_type = "wash_fold";
-                startActivity(new Intent(LandingActivity.this,ClothSelectActivity.class));
+                ServiceTypes.service_type = "wash_fold";
+                startActivity(new Intent(LandingActivity.this, ClothSelectActivity.class));
             }
         });
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Helper.service_type = "wash_iron";
+                ServiceTypes.service_type = "wash_iron";
                 startActivity(new Intent(LandingActivity.this,ClothSelectActivity.class));
 
             }
@@ -55,7 +58,7 @@ public class LandingActivity extends AppCompatActivity {
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Helper.service_type = "iron";
+                ServiceTypes.service_type = "iron";
                 startActivity(new Intent(LandingActivity.this,ClothSelectActivity.class));
             }
         });
@@ -63,7 +66,7 @@ public class LandingActivity extends AppCompatActivity {
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Helper.service_type = "dry_clean";
+                ServiceTypes.service_type = "dry_clean";
                 startActivity(new Intent(LandingActivity.this,ClothSelectActivity.class));
             }
         });

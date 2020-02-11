@@ -1,4 +1,4 @@
-package com.example.stet;
+package com.example.stet.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,20 +6,23 @@ import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.stet.Helper.Urls;
+import com.example.stet.R;
+import com.example.stet.Helper.UserDetailsSharedPreferences;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,7 +35,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -41,12 +43,14 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,8 +66,8 @@ import java.util.Map;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
-    int MAX_ADDRESS_ALLOWED = 3;
-    String mapsUrl;
+    int MAX_ADDRESS_ALLOWED = 1;
+    String mapsUrl="http://192.168.1.208:8000/apis/add_address/";
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -383,8 +387,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    private void sendAddressToDatabase(String mainAddress, String aptNumber, String landmark, String buildingName, String area) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, mapsUrl, new Response.Listener<String>() {
+    private void sendAddressToDatabase(final String mainAddress, final String aptNumber, final String landmark, final String buildingName, final String area) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.mapsUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -393,8 +397,32 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onErrorResponse(VolleyError error) {
 
+
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
+                JSONObject jsonObject=new JSONObject();
+                try {
+                    jsonObject.put("main_address",mainAddress);
+                    jsonObject.put("apt_number",aptNumber);
+                    jsonObject.put("landmark",landmark);
+                    jsonObject.put("building_name",buildingName);
+                    jsonObject.put("area",area);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                params.put("token",sharedPreferences.getString(UserDetailsSharedPreferences.userIdToken,"Default ToKEN"));
+                params.put("address",jsonObject.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
     }
 
 }

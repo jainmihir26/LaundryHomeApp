@@ -1,4 +1,4 @@
-package com.example.stet;
+package com.example.stet.Models;
 public class HomeModel {
     private int image ;
 

@@ -1,8 +1,9 @@
-package com.example.stet;
+package com.example.stet.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -16,6 +17,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.stet.Helper.UserDetailsSharedPreferences;
+import com.example.stet.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
@@ -40,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final String urlLogin = "http://192.168.43.27:8000/apis/login/";
+        final String urlLogin = "http://192.168.1.208:8000/apis/login/";
         login_button = findViewById(R.id.sign_in_login);
         phone_number_login = findViewById(R.id.phone_number_login);
         password_login = findViewById(R.id.password_login);
@@ -50,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),RegisterActivity.class);
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
                 finish();
 
@@ -96,7 +99,11 @@ public class LoginActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(response);
 
             if(jsonObject.getString("error").equals("false")){
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putString(UserDetailsSharedPreferences.userIdToken,jsonObject.getString("token"));
+                editor.apply();
+                Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
                 startActivity(intent);
                 finish();
             }else{

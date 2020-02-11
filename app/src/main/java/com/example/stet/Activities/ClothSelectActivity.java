@@ -1,11 +1,16 @@
-package com.example.stet;
+package com.example.stet.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.stet.Adapters.SwipeAdapter;
+import com.example.stet.Fragment.BottomFragment;
+import com.example.stet.Fragment.DressFragment;
+import com.example.stet.Fragment.HouseholdFragment;
+import com.example.stet.R;
+import com.example.stet.Fragment.TopFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class ClothSelectActivity extends AppCompatActivity {

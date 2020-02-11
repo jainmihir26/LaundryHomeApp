@@ -15,21 +15,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ServicesActivity"></activity>
-        <activity android:name=".MapsActivity" />
-        <activity android:name=".ClothSelectActivity"></activity>
-        <activity android:name=".LandingActivity">
+        <activity android:name=".Activities.ServicesActivity"></activity>
+        <activity android:name=".Activities.MapsActivity" />
+        <activity android:name=".Activities.ClothSelectActivity"></activity>
+        <activity android:name=".Activities.LandingActivity">
 
         </activity>
-        <activity android:name=".RegisterActivity">
+        <activity android:name=".Activities.RegisterActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".Activities.MainActivity" />
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_map_API_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
     </application>
 
 </manifest>
