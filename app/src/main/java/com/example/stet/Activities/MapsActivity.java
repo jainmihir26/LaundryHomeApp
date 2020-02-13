@@ -2,6 +2,7 @@ package com.example.stet.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -380,8 +381,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 sendAddressToDatabase(mainAddress, aptNumber, landmark, buildingName, area);
                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences, MODE_PRIVATE);
                 SharedPreferences.Editor mEditor = sharedPreferences.edit();
-                mEditor.putString(UserDetailsSharedPreferences.addressOfUser, mainAddress);
+                mEditor.putString(UserDetailsSharedPreferences.userAddress, mainAddress);
                 mEditor.apply();
+
+                Intent intent=new Intent(MapsActivity.this,MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
 //                startActivity(new Intent(MapsActivity.this,HomeActivity.class));
             }
         });

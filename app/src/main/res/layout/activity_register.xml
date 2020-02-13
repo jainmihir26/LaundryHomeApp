@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".Activities.RegisterActivity">
 
     <ImageView
         android:id="@+id/background_login"
@@ -48,6 +48,7 @@
                 android:layout_marginEnd="30dp"
                 android:hint="First Name"
                 android:padding="15dp"
+                android:inputType="textPersonName"
                 android:textColorHint="@android:color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -81,6 +82,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:textColorHint="@android:color/white"
+                android:inputType="textEmailAddress"
                 android:textColor="@android:color/white"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -97,6 +99,7 @@
                 android:padding="15dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
+                android:inputType="phone"
                 android:textColorHint="#494949"
                 android:textColor="#292929"/>
 
@@ -115,6 +118,7 @@
                 android:padding="15dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
+                android:inputType="textPassword"
                 android:textColorHint="@android:color/white"
                 android:textColor="@android:color/white"/>
 
@@ -132,6 +136,7 @@
                 android:padding="15dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
+                android:inputType="textPassword"
                 android:textColorHint="@android:color/white"
                 android:textColor="@android:color/white"/>
 
@@ -176,8 +181,6 @@
                 android:layout_marginLeft="30dp"
                 android:textColor="@android:color/black"/>
 
-
-
         </RelativeLayout>
 
 
@@ -202,8 +205,5 @@
         </RelativeLayout>
 
     </LinearLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

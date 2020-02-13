@@ -1,23 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_bright">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.AccountFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Account fragment"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            >
+            <ImageView
+                android:id="@+id/accountF_userImageId"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="60dp"
+                android:src="@drawable/person_image" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/account_logout_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="LOGOUT"
-        android:layout_centerInParent="true"/>
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/accountF_userNameId"
+            android:text="NAME"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="100dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            />
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:weightSum="5"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="2.7"
+                android:layout_height="wrap_content"
+                android:id="@+id/accountF_userEmailId"
+                android:text="Email"
+                android:textSize="12sp"
+                android:layout_marginLeft="20dp"
+                />
+            <TextView android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="2.3"
+                android:id="@+id/accountF_userPhoneNumberId"
+                android:text="phone"
+                android:textSize="12sp"
+                android:layout_marginLeft="35dp"
+                />
+        </LinearLayout>
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="15dp"
+            android:text="Saved Places"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            />
 
+        <RelativeLayout
+            android:layout_height="55dp"
+            android:layout_width="match_parent"
+            >
+            <TextView
+                android:id="@+id/accountF_userAddressId"
+                android:layout_width="300dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/ic_location_on_black_24dp"
+                android:text="Address Will come Here"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                tools:ignore="HardcodedText" />
+            <TextView android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:id="@+id/account_changeAddressId"
+                android:layout_toRightOf="@+id/accountF_userAddressId"
+                android:text="change"
+                android:layout_marginLeft="16dp"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:textColor="@color/blue_navy"
+                android:layout_marginTop="8dp"
+                android:shadowColor="@color/grey"
+                tools:ignore="HardcodedText" />
 
-</RelativeLayout>
+        </RelativeLayout>
+
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/accountF_referId"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/refer"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            />
+
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/accountF_helpId"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:text="Help"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            />
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/accountF_aboutId"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:text="About Us"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            />
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/accountF_termsId"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/terms"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            />
+        <Button android:layout_height="41dp"
+            android:layout_width="match_parent"
+            android:id="@+id/accountF_logoutId"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/logout"
+            android:textColor="@color/blue_navy"
+            android:background="@drawable/button_shape"
+            />
+    </LinearLayout>
+</FrameLayout>

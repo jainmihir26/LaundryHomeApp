@@ -3,6 +3,7 @@ package com.example.stet.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -16,6 +17,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.stet.Helper.Urls;
+import com.example.stet.Helper.UserDetailsSharedPreferences;
 import com.example.stet.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -34,11 +37,11 @@ public class RegisterActivity extends AppCompatActivity {
     TextView sign_in;
     FloatingActionButton button_register;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final String url = "http://192.168.43.27:8000/apis/register/";
+        checkAlreadyUser();
 
         first_name_register = findViewById(R.id.first_name_register);
         last_name_register = findViewById(R.id.last_name_register);
@@ -68,8 +71,16 @@ public class RegisterActivity extends AppCompatActivity {
                 final String password = password_register.getText().toString().trim();
                 final String confirm_password = confirm_password_register.getText().toString().trim();
 
+
+                SharedPreferences sharedPreferences= getBaseContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putString(UserDetailsSharedPreferences.firstName,first_name);
+                editor.putString(UserDetailsSharedPreferences.userPhoneNumber,phone_number);
+                editor.putString(UserDetailsSharedPreferences.userEmail,email);
+                editor.apply();
+
                 if(password.equals(confirm_password)){
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.registerUrl, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             Toast.makeText(RegisterActivity.this,response, Toast.LENGTH_SHORT).show();
@@ -103,11 +114,18 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-
-
-
-
+    private void checkAlreadyUser() {
+        SharedPreferences sharedPreferences= getBaseContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
+        String token=sharedPreferences.getString(UserDetailsSharedPreferences.userIdToken,"DEFAULT_TOKEN");
+        if(token.equals("DEFAULT_TOKEN")){
+            return ;
+        }else{
+            Intent intent=new Intent(RegisterActivity.this,MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
     }
 
     private void parseData(String response){
@@ -116,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(response);
 
             if(jsonObject.getString("error").equals("false")){
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(),VerifyOtpActivity.class);
                 startActivity(intent);
             }else{
                 Toast.makeText(this,jsonObject.getString("message"), Toast.LENGTH_SHORT).show();

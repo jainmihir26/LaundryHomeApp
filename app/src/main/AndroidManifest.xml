@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,22 +16,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.ServicesActivity"></activity>
+        <activity android:name=".Activities.UpiPaymentActivity"></activity>
+        <activity android:name=".Activities.VerifyOtpActivity" />
+        <activity android:name=".Activities.ServicesActivity" />
         <activity android:name=".Activities.MapsActivity" />
-        <activity android:name=".Activities.ClothSelectActivity"></activity>
-        <activity android:name=".Activities.LandingActivity">
-
-        </activity>
+        <activity android:name=".Activities.ClothSelectActivity" />
+        <activity android:name=".Activities.LandingActivity" />
         <activity android:name=".Activities.RegisterActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.MainActivity" />
-
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -38,7 +38,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
     </application>
 
 </manifest>
