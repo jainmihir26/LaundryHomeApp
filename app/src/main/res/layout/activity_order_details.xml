@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.OrderDetails"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingStart="10dp"
+    android:paddingRight="10dp"
+    android:paddingEnd="10dp"
+    android:paddingTop="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="22sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:layout_marginLeft="250dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick up Day?"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="22sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:text="Tommrrow 7Dec "
+            android:layout_gravity="center_vertical"/>
+
+        <Button
+            android:layout_marginLeft="30dp"
+            android:layout_width="110dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="55dp"
+            android:text="Tommrrow 7Dec " />
+
+        <Button
+            android:layout_marginLeft="30dp"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:height="55dp"
+            android:text="Tommrrow 7Dec " />
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick up Time?"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="22sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_gravity="center_vertical"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:text="10:30 AM " />
+
+        <Button
+            android:layout_marginLeft="30dp"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center_vertical"
+            android:text="12:30 PM" />
+
+        <Button
+            android:layout_marginLeft="30dp"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center_vertical"
+            android:text="1:00 PM" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delivery Day?"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="22sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:text="Tommrrow 7Dec "
+            android:layout_gravity="center_vertical"/>
+
+        <Button
+            android:layout_marginLeft="30dp"
+            android:layout_width="110dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="55dp"
+            android:text="Tommrrow 7Dec " />
+
+        <Button
+            android:layout_marginLeft="30dp"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:height="55dp"
+            android:text="Tommrrow 7Dec " />
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delivery Time?"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="22sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_gravity="center_vertical"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:text="10:30 AM " />
+
+        <Button
+            android:layout_marginLeft="30dp"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center_vertical"
+            android:text="12:30 PM" />
+
+        <Button
+            android:layout_marginLeft="30dp"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center_vertical"
+            android:text="1:00 PM" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Extra Notes"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="22sp"/>
+
+    <EditText
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey"
+        android:layout_marginBottom="10dp"
+        android:gravity="top"/>
+
+</LinearLayout>

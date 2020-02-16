@@ -16,21 +16,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.UpiPaymentActivity"></activity>
-        <activity android:name=".Activities.VerifyOtpActivity" />
-        <activity android:name=".Activities.ServicesActivity" />
-        <activity android:name=".Activities.MapsActivity" />
-        <activity android:name=".Activities.ClothSelectActivity" />
-        <activity android:name=".Activities.LandingActivity" />
-        <activity android:name=".Activities.RegisterActivity">
+        <activity android:name=".Activities.Order">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activities.OrderDetails">
+        </activity>
+        <activity android:name=".Activities.WelcomeActivity" />
+        <activity android:name=".Activities.UpiPaymentActivity" />
+        <activity android:name=".Activities.VerifyOtpActivity" />
+        <activity android:name=".Activities.MapsActivity" />
+        <activity android:name=".Activities.ClothSelectActivity" />
+        <activity android:name=".Activities.LandingActivity" />
+        <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".Activities.MainActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

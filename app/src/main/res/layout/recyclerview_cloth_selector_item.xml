@@ -11,26 +11,53 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:padding="5dp"
-        >
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/cloth_type_recycler_view_item"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:text="T-Shirts"
-            android:textSize="20sp"
-            android:layout_marginLeft="10dp"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/cloth_price_recycler_view_item"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="180dp"
             android:text="5 $"
-            android:textSize="20sp"
-            android:layout_marginLeft="180dp"/>
+            android:textSize="20sp" />
+
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="300dp">
+
+        <Button
+            android:id="@+id/minus_button"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/quantity_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="8"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/plus_button"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="+" />
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

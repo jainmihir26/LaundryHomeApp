@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,10 +21,12 @@ import java.util.ArrayList;
 
 public class UpiPaymentActivity extends AppCompatActivity {
 
-    EditText amountEt, noteEt, nameEt, upiIdEt;
+    EditText  noteEt, nameEt, upiIdEt;
+    TextView mAmountTV ;
     Button send;
 
     final int UPI_PAYMENT = 0;
+    String amount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +35,18 @@ public class UpiPaymentActivity extends AppCompatActivity {
 
         initializeViews();
 
+        amount = getIntent().getStringExtra("amount");
+        mAmountTV.setText(amount);
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Getting the values from the EditTexts
-                String amount = amountEt.getText().toString();
+                 amount = getIntent().getStringExtra("amount");
                 String note = noteEt.getText().toString();
                 String name = nameEt.getText
                         ().toString();
-                String upiId = "7597997755@paytm";
+                String upiId = "9309536729@ybl";
                 payUsingUpi(amount, upiId, name, note);
             }
         });
@@ -48,10 +54,10 @@ public class UpiPaymentActivity extends AppCompatActivity {
 
     void initializeViews() {
         send = findViewById(R.id.send);
-        amountEt = findViewById(R.id.amount_et);
+        mAmountTV = findViewById(R.id.amount_et);
         noteEt = findViewById(R.id.note);
         nameEt = findViewById(R.id.name);
-        upiIdEt = findViewById(R.id.upi_id);
+//        upiIdEt = findViewById(R.id.upi_id);
     }
 
     void payUsingUpi(String amount, String upiId, String name, String note) {

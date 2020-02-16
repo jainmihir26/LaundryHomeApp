@@ -134,8 +134,15 @@ public class RegisterActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(response);
 
             if(jsonObject.getString("error").equals("false")){
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putString(UserDetailsSharedPreferences.userIdToken,jsonObject.getString("token"));
+                editor.commit();
+
+                Toast.makeText(this,jsonObject.getString("token"), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(),VerifyOtpActivity.class);
                 startActivity(intent);
+
             }else{
                 Toast.makeText(this,jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
             }

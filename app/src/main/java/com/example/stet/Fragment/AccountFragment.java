@@ -80,6 +80,7 @@ public class AccountFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Toast.makeText(thicContext, response, Toast.LENGTH_SHORT).show();
                         try {
                             JSONObject jsonObject=new JSONObject(response);
                             if(jsonObject.getString("error").equals("false")){

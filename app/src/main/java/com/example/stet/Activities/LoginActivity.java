@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString(UserDetailsSharedPreferences.userEmail,email);
                 editor.apply();
 
-                Intent intent = new Intent(getApplicationContext(),UpiPaymentActivity.class);
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
                 finish();
             }else{

@@ -6,15 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".Activities.UpiPaymentActivity">
 
-    <EditText
+    <LinearLayout android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/linearLayout1"
+        >
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Your bill is: "
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            />
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Amount"
+        android:textSize="20sp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:id="@+id/amount_et"
-        android:inputType="number"/>
+        android:inputType="number"
+        />
+    </LinearLayout>
 
 
     <EditText
@@ -25,8 +41,8 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:id="@+id/name"
-        android:layout_below="@+id/upi_id"
-        android:text="Deepjyot Singh"/>
+        android:layout_below="@id/linearLayout1"
+        android:text=""/>
 
     <EditText
         android:layout_width="match_parent"
@@ -37,7 +53,7 @@
         android:layout_marginTop="20dp"
         android:id="@+id/note"
         android:layout_below="@+id/name"
-        android:text="Here's some money bro!"/>
+        android:text=""/>
 
     <Button
         android:layout_width="100dp"

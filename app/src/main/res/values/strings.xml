@@ -13,4 +13,9 @@
     <string name="logout">Log Out</string>
     <string name="privacy_policy_string">By proceeding you agree to the <font color='#269131'>Terms of Use</font> and<font color='#269131'> Privacy Policy</font></string>
 
+    <string name="IS_FIRST_TIME_LAUNCH">IsFirstTimeLaunch</string>
+    <string name="slider1_description">By handling all your laundry needs we give you cleaner and healthy way of life</string>
+    <string name="discription_slider2">Avail exclusive offers and cashbacks when you order from app and share with your friends</string>
+    <string name="discription_slider3">Select convenient time and date,place to an order.Our agent will pickup your laundry</string>
+    <string name="PRICE_OBJ_ID">PriceObjId</string>
 </resources>

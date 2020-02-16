@@ -1,24 +1,27 @@
 package com.example.stet.Fragment;
-
+import android.app.Activity;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stet.Models.DataClothSelector;
+import com.example.stet.DataClothSelector;
 import com.example.stet.Helper.ServiceTypes;
+import com.example.stet.Models.ClothSelectorContract;
+import com.example.stet.Models.ClothSelectorDbHelper;
 import com.example.stet.R;
-import com.example.stet.Helper.ServiceDryCleanData;
-import com.example.stet.Helper.ServiceIronData;
-import com.example.stet.Helper.ServiceWashFoldData;
-import com.example.stet.Helper.ServiceWashIronData;
 
 import java.util.ArrayList;
 
@@ -32,6 +35,12 @@ public class TopFragment extends Fragment {
     private ProgressBar mProgressBarLoading;
     private RecyclerView mRecyclerView;
     private ListAdapter mListadapter;
+    private TotalChangeTop totalChangeTop;
+
+    public interface TotalChangeTop{
+        public void total_count_change_top(int total,int count);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,64 +54,93 @@ public class TopFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
 
         ArrayList<DataClothSelector> data = new ArrayList<>();
+        ClothSelectorDbHelper clothSelectorDbHelper = new ClothSelectorDbHelper(getActivity());
+        SQLiteDatabase sqLiteDatabase = clothSelectorDbHelper.getReadableDatabase();
         switch(ServiceTypes.service_type){
             case "wash_fold":
-                for(int i = 0; i< ServiceWashFoldData.idTop.length; i++){
-                    data.add(
-                            new DataClothSelector(
-                                    ServiceWashFoldData.idTop[i],
-                                    ServiceWashFoldData.clothArrayTop[i],
-                                    ServiceWashFoldData.priceArrayTop[i]
-                            )
-                    );
+                Cursor cursor_wf = clothSelectorDbHelper.readContacts(sqLiteDatabase);
+                while (cursor_wf.moveToNext())
+                {
+                    String category = cursor_wf.getString(cursor_wf.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_SERVICE_TYPE));
+                    String sub_category = cursor_wf.getString(cursor_wf.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_SUBCATEGORY));
+                    if (category.equals("wash_fold") && sub_category.equals("top")){
+                        data.add(
+                                new DataClothSelector(
+                                        cursor_wf.getInt(cursor_wf.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_ID)),
+                                        cursor_wf.getString(cursor_wf.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_NAME)),
+                                        cursor_wf.getInt(cursor_wf.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_PRICE)),
+                                        cursor_wf.getInt(cursor_wf.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_COUNT))
+                                )
+                        );
+                    }
                 }
                 mListadapter = new ListAdapter(data);
                 mRecyclerView.setAdapter(mListadapter);
                 break;
+
             case "wash_iron":
-                for(int i = 0; i< ServiceWashIronData.idTop.length; i++){
-                    data.add(
-                            new DataClothSelector(
-                                    ServiceWashIronData.idTop[i],
-                                    ServiceWashIronData.clothArrayTop[i],
-                                    ServiceWashIronData.priceArrayTop[i]
-                            )
-                    );
+                Cursor cursor_wi = clothSelectorDbHelper.readContacts(sqLiteDatabase);
+
+                while (cursor_wi.moveToNext())
+                {
+                    String sub_category = cursor_wi.getString(cursor_wi.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_SUBCATEGORY));
+                    String category = cursor_wi.getString(cursor_wi.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_SERVICE_TYPE));
+                    if (category.equals("wash_iron") && sub_category.equals("top")){
+                        data.add(
+                                new DataClothSelector(
+                                        cursor_wi.getInt(cursor_wi.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_ID)),
+                                        cursor_wi.getString(cursor_wi.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_NAME)),
+                                        cursor_wi.getInt(cursor_wi.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_PRICE)),
+                                        cursor_wi.getInt(cursor_wi.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_COUNT))
+                                )
+                        );
+                    }
                 }
                 mListadapter = new ListAdapter(data);
                 mRecyclerView.setAdapter(mListadapter);
                 break;
             case "iron":
-                for(int i = 0; i< ServiceIronData.idTop.length; i++){
-                    data.add(
-                            new DataClothSelector(
-                                    ServiceIronData.idTop[i],
-                                    ServiceIronData.clothArrayTop[i],
-                                    ServiceIronData.priceArrayTop[i]
-                            )
-                    );
+                Cursor cursor_i = clothSelectorDbHelper.readContacts(sqLiteDatabase);
+                while (cursor_i.moveToNext())
+                {
+                    String sub_category = cursor_i.getString(cursor_i.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_SUBCATEGORY));
+                    String category = cursor_i.getString(cursor_i.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_SERVICE_TYPE));
+                    if (category.equals("iron") && sub_category.equals("top")){
+                        data.add(
+                                new DataClothSelector(
+                                        cursor_i.getInt(cursor_i.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_ID)),
+                                        cursor_i.getString(cursor_i.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_NAME)),
+                                        cursor_i.getInt(cursor_i.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_PRICE)),
+                                        cursor_i.getInt(cursor_i.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_COUNT))
+                                )
+                        );
+                    }
                 }
                 mListadapter = new ListAdapter(data);
                 mRecyclerView.setAdapter(mListadapter);
                 break;
             case "dry_clean":
-                for(int i = 0; i< ServiceDryCleanData.idTop.length; i++){
-                    data.add(
-                            new DataClothSelector(
-                                    ServiceDryCleanData.idTop[i],
-                                    ServiceDryCleanData.clothArrayTop[i],
-                                    ServiceDryCleanData.priceArrayTop[i]
-                            )
-                    );
+                Cursor cursor_dc = clothSelectorDbHelper.readContacts(sqLiteDatabase);
+
+                while (cursor_dc.moveToNext())
+                {
+                    String sub_category = cursor_dc.getString(cursor_dc.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_SUBCATEGORY));
+                    String category = cursor_dc.getString(cursor_dc.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_SERVICE_TYPE));
+                    if (category.equals("dry_clean") && sub_category.equals("top")){
+                        data.add(
+                                new DataClothSelector(
+                                        cursor_dc.getInt(cursor_dc.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_ID)),
+                                        cursor_dc.getString(cursor_dc.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_NAME)),
+                                        cursor_dc.getInt(cursor_dc.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_PRICE)),
+                                        cursor_dc.getInt(cursor_dc.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_COUNT))
+                                )
+                        );
+                    }
                 }
                 mListadapter = new ListAdapter(data);
                 mRecyclerView.setAdapter(mListadapter);
                 break;
         }
-
-
-
-
         return view;
     }
 
@@ -120,12 +158,17 @@ public class TopFragment extends Fragment {
         {
             TextView textViewCloth;
             TextView textViewPrice;
+            TextView textViewQuantity;
+            Button plus,minus;
 
             public ViewHolder(View itemView)
             {
                 super(itemView);
                 this.textViewCloth = (TextView) itemView.findViewById(R.id.cloth_type_recycler_view_item);
                 this.textViewPrice = (TextView) itemView.findViewById(R.id.cloth_price_recycler_view_item);
+                this.textViewQuantity = (TextView) itemView.findViewById(R.id.quantity_text_view);
+                this.plus = (Button) itemView.findViewById(R.id.plus_button);
+                this.minus = (Button) itemView.findViewById(R.id.minus_button);
 
             }
         }
@@ -140,18 +183,48 @@ public class TopFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(ListAdapter.ViewHolder holder, final int position)
+        public void onBindViewHolder(final ListAdapter.ViewHolder holder, final int position)
         {
             holder.textViewCloth.setText(dataList.get(position).getCloth());
-            holder.textViewPrice.setText(dataList.get(position).getPrice());
+            holder.textViewPrice.setText(Integer.toString(dataList.get(position).getPrice()));
+            holder.textViewQuantity.setText(Integer.toString(dataList.get(position).getQuantity()));
 
-
-            holder.itemView.setOnClickListener(new View.OnClickListener()
-            {
+            holder.plus.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
-                    Toast.makeText(getActivity(), "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
+                public void onClick(View view) {
+                    int initial_count = Integer.parseInt(holder.textViewQuantity.getText().toString());
+                    int final_count = initial_count+1;
+                    int cloth_id = dataList.get(position).getId();
+
+                    holder.textViewQuantity.setText(Integer.toString(final_count));
+
+                    ClothSelectorDbHelper clothSelectorDbHelper = new ClothSelectorDbHelper(getActivity());
+                    SQLiteDatabase sqLiteDatabase = clothSelectorDbHelper.getWritableDatabase();
+                    clothSelectorDbHelper.updateClothCount(cloth_id,final_count,sqLiteDatabase);
+
+                    changeTotalCost();
+                    clothSelectorDbHelper.close();
+                }
+            });
+
+
+
+            holder.minus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(Integer.parseInt(holder.textViewQuantity.getText().toString()) != 0) {
+                        int initial_count = Integer.parseInt(holder.textViewQuantity.getText().toString());
+                        int final_count = initial_count-1;
+                        int cloth_id = dataList.get(position).getId();
+
+                        holder.textViewQuantity.setText(Integer.toString(final_count));
+
+                        ClothSelectorDbHelper clothSelectorDbHelper = new ClothSelectorDbHelper(getActivity());
+                        SQLiteDatabase sqLiteDatabase = clothSelectorDbHelper.getWritableDatabase();
+                        clothSelectorDbHelper.updateClothCount(cloth_id,final_count,sqLiteDatabase);
+                        changeTotalCost();
+                        clothSelectorDbHelper.close();
+                    }
                 }
             });
         }
@@ -160,6 +233,40 @@ public class TopFragment extends Fragment {
         public int getItemCount()
         {
             return dataList.size();
+        }
+    }
+
+
+    public void changeTotalCost(){
+
+        ClothSelectorDbHelper clothSelectorDbHelper = new ClothSelectorDbHelper(getActivity());
+        SQLiteDatabase sqLiteDatabase = clothSelectorDbHelper.getReadableDatabase();
+        Cursor cursor = clothSelectorDbHelper.readContacts(sqLiteDatabase);
+        int total_cost = 0;
+        int total_count = 0;
+        while (cursor.moveToNext())
+        {
+            int cloth_price = cursor.getInt(cursor.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_PRICE));
+            int cloth_count = cursor.getInt(cursor.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_COUNT));
+            total_cost += cloth_price*cloth_count;
+            total_count += cloth_count;
+        }
+
+        totalChangeTop.total_count_change_top(total_cost,total_count);
+
+
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        Activity activity = (Activity)context;
+
+        try{
+            totalChangeTop = (TotalChangeTop) activity;
+        }catch(ClassCastException e){
+            throw new ClassCastException(activity.toString()+"must implements that interface method");
         }
     }
 }

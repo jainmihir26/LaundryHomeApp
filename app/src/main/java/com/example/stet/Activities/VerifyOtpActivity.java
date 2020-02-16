@@ -84,8 +84,11 @@ public class VerifyOtpActivity extends AppCompatActivity {
                 Map<String,String> params = new HashMap<>();
                 SharedPreferences sharedPreferences=getBaseContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
                 String phoneNumber=sharedPreferences.getString(UserDetailsSharedPreferences.userPhoneNumber,"111");
+
+
                 params.put("phone_no",phoneNumber);
                 params.put("otp",otp1);
+                params.put("token",sharedPreferences.getString(UserDetailsSharedPreferences.userIdToken,"null"));
                 return params;
             }
         };

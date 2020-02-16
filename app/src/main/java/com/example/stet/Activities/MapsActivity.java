@@ -366,8 +366,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     return;
                 }
                 if (mArea.getText().toString().isEmpty()) {
-                    mLandmark.setError("Enter this field");
-                    mLandmark.requestFocus();
+                    mArea.setError("Enter this field");
+                    mArea.requestFocus();
                     return;
                 }
                 Log.d(TAG, "onClick: save button clicked");
@@ -396,13 +396,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.mapsUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                Log.d(TAG, "onResponse: "+response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
-
+                Log.e(TAG, "onErrorResponse: ",error );
             }
         }){
             @Override

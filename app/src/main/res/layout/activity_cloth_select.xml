@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ClothSelectActivity"
+    tools:context="Activities.ClothSelectActivity"
     android:background="@android:color/white">
 
 
@@ -24,8 +24,54 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="69dp" >
-
+        tools:layout_editor_absoluteY="69dp"
+        android:layout_marginBottom="65dp">
     </androidx.viewpager.widget.ViewPager>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha=".5"
+        android:background="@android:color/darker_gray"
+        />
+
+    <Button
+        android:layout_marginLeft="320dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:id="@+id/next_ClothSelectId"
+        android:outlineProvider="none"
+        android:text="Next"
+        android:textColor="@android:color/holo_blue_dark"/>
+
+
+    <TextView
+        android:id="@+id/amount_wash_fold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total:0$"
+        android:textColor="@android:color/black"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="22dp"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/quantity_wash_fold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0 Items"
+        android:textColor="@android:color/black"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="22dp"
+        android:gravity="center"
+        android:layout_marginLeft="110dp"
+        android:textSize="18sp"/>
 
 </RelativeLayout>

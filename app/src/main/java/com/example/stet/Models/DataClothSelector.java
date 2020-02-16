@@ -1,25 +1,31 @@
-package com.example.stet.Models;
+package com.example.stet;
 
 public class DataClothSelector {
-    String id;
+    int id;
     String cloth;
-    String price;
+    int price;
+    int quantity;
 
-    public DataClothSelector(String id,String cloth,String price){
+    public DataClothSelector(int id,String cloth,int price,int quantity){
         this.id = id;
         this.cloth = cloth;
         this.price = price;
+        this.quantity = quantity;
     }
 
     public String getCloth(){
         return cloth;
     }
 
-    public String getPrice(){
+    public int getPrice(){
         return price;
     }
 
-    public String getId(){
+    public int getId(){
         return id;
+    }
+
+    public int getQuantity(){
+        return quantity;
     }
 }
