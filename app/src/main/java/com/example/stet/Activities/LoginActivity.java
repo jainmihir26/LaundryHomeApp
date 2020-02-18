@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
 import com.example.stet.Helper.UserDetailsSharedPreferences;
 import com.example.stet.R;
@@ -114,14 +115,21 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "parseData:email is  "+email);
 
 
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
-                SharedPreferences.Editor editor=sharedPreferences.edit();
-                editor.putString(UserDetailsSharedPreferences.userIdToken,jsonObject.getString("token"));
-                editor.putString(UserDetailsSharedPreferences.firstName,firstName);
-                editor.putString(UserDetailsSharedPreferences.lastName,lastName);
-                editor.putString(UserDetailsSharedPreferences.userPhoneNumber,phoneNumber);
-                editor.putString(UserDetailsSharedPreferences.userEmail,email);
-                editor.apply();
+                SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);
+                sharedPreferencesConfig.write_full_name(firstName+" "+lastName);
+                sharedPreferencesConfig.write_email(email);
+                sharedPreferencesConfig.write_phone_number(phoneNumber);
+                sharedPreferencesConfig.write_token(jsonObject.getString("token"));
+
+
+//                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
+//                SharedPreferences.Editor editor=sharedPreferences.edit();
+//                editor.putString(UserDetailsSharedPreferences.userIdToken,);
+//                editor.putString(UserDetailsSharedPreferences.firstName,firstName);
+//                editor.putString(UserDetailsSharedPreferences.lastName,lastName);
+//                editor.putString(UserDetailsSharedPreferences.userPhoneNumber,phoneNumber);
+//                editor.putString(UserDetailsSharedPreferences.userEmail,email);
+//                editor.apply();
 
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);

@@ -67,4 +67,12 @@ public class ClothSelectorDbHelper extends SQLiteOpenHelper {
 
     }
 
+    public void updateCountToZero(int cloth_id,SQLiteDatabase sqLiteDatabase){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ClothSelectorContract.ClothEntry.CLOTH_COUNT,0);
+        String selection = ClothSelectorContract.ClothEntry.CLOTH_ID +"="+cloth_id;
+        sqLiteDatabase.update(ClothSelectorContract.ClothEntry.TABLE_NAME,contentValues,selection,null);
+
+    }
+
 }

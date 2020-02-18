@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".Activities.MapsActivity">
 
+
+
     <fragment
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -21,34 +23,21 @@
         android:id="@+id/map_RelativeLayout"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginRight="10dp"
         android:background="@color/white"
         >
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:id="@+id/map_searchImageId"
-            android:src="@drawable/ic_search_black_24dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp" />
-        <EditText
+        <AutoCompleteTextView
+            android:id="@+id/autocomplete"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/map_inputTextId"
-            android:layout_toRightOf="@+id/map_searchImageId"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:layout_centerVertical="true"
-            android:background="@null"
-            android:hint="Enter address or zip code "
-            android:imeOptions="actionSearch"
-            android:layout_marginStart="2dp"
-            android:maxLines="1"
+            android:hint="Search your Main Address Here"
+            android:drawableLeft="@drawable/ic_search_black_24dp"
+            android:imeOptions="actionDone"
             android:inputType="text"
-            />
+            android:maxLines="1" />
     </RelativeLayout>
 
     <ImageView android:layout_height="40dp"
@@ -79,6 +68,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:imeOptions="actionDone"
+        android:maxLines="1"
         />
     <EditText android:layout_height="50dp"
         android:layout_width="match_parent"
@@ -88,6 +79,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:imeOptions="actionDone"
+        android:maxLines="1"
         />
     <EditText android:layout_height="50dp"
         android:layout_width="match_parent"
@@ -97,6 +90,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:maxLines="1"
         />
     <EditText android:layout_height="50dp"
         android:layout_width="match_parent"
@@ -106,6 +100,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:imeOptions="actionDone"
+        android:maxLines="1"
         />
     <Button android:layout_height="40dp"
         android:layout_width="match_parent"
@@ -116,6 +112,7 @@
         android:layout_below="@+id/map_areaOrDistrictId"
         android:textColor="@color/green_light"
         android:text="Save"
+
         android:layout_marginTop="20dp"
         />
 

@@ -40,7 +40,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:id="@+id/name"
+        android:id="@+id/name_upi_payment"
         android:layout_below="@id/linearLayout1"
         android:text=""/>
 
@@ -52,7 +52,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:id="@+id/note"
-        android:layout_below="@+id/name"
+        android:layout_below="@+id/name_upi_payment"
         android:text=""/>
 
     <Button

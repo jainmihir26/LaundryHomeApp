@@ -3,7 +3,6 @@ package com.example.stet.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +17,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
-import com.example.stet.Helper.UserDetailsSharedPreferences;
 import com.example.stet.R;
 
 import org.json.JSONException;
@@ -64,7 +63,10 @@ public class VerifyOtpActivity extends AppCompatActivity {
                             if (jsonObject.getString("error").equals("false")) {
                                 Intent intent=new Intent(VerifyOtpActivity.this,MapsActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                intent.putExtra("from_activity","VerifyOtpActivity");
                                 startActivity(intent);
+                            }else{
+                                Toast.makeText(VerifyOtpActivity.this, "Wrong OTP Try Again", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -82,13 +84,12 @@ public class VerifyOtpActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
-                SharedPreferences sharedPreferences=getBaseContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
-                String phoneNumber=sharedPreferences.getString(UserDetailsSharedPreferences.userPhoneNumber,"111");
+                SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(VerifyOtpActivity.this);
 
 
-                params.put("phone_no",phoneNumber);
+                params.put("phone_no",sharedPreferencesConfig.read_phone_number());
                 params.put("otp",otp1);
-                params.put("token",sharedPreferences.getString(UserDetailsSharedPreferences.userIdToken,"null"));
+                params.put("token",sharedPreferencesConfig.read_token());
                 return params;
             }
         };

@@ -26,4 +26,8 @@ public class DataClothCart {
         return cost;
     }
 
+    public int getId(){
+        return id;
+    }
+
 }

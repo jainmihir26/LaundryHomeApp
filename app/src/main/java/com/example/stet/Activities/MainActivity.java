@@ -56,16 +56,8 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
 
-
-
-
-
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-
         bottomNav.setOnNavigationItemSelectedListener(navListner);
-
-
-
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
     }
 
@@ -102,9 +94,6 @@ public class MainActivity extends AppCompatActivity {
             };
 
     private void parseData(String response){
-
-
-
         try {
             JSONObject jsonObject = new JSONObject(response);
             SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);

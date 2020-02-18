@@ -1,6 +1,7 @@
 package com.example.stet.Activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,8 +14,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.R;
 
 import java.util.ArrayList;
@@ -38,6 +41,9 @@ public class UpiPaymentActivity extends AppCompatActivity {
         amount = getIntent().getStringExtra("amount");
         mAmountTV.setText(amount);
 
+        SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);
+        nameEt.setText(sharedPreferencesConfig.read_full_name());
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +52,7 @@ public class UpiPaymentActivity extends AppCompatActivity {
                 String note = noteEt.getText().toString();
                 String name = nameEt.getText
                         ().toString();
-                String upiId = "9309536729@ybl";
+                String upiId = "7597997755@paytm";
                 payUsingUpi(amount, upiId, name, note);
             }
         });
@@ -56,7 +62,7 @@ public class UpiPaymentActivity extends AppCompatActivity {
         send = findViewById(R.id.send);
         mAmountTV = findViewById(R.id.amount_et);
         noteEt = findViewById(R.id.note);
-        nameEt = findViewById(R.id.name);
+        nameEt = findViewById(R.id.name_upi_payment);
 //        upiIdEt = findViewById(R.id.upi_id);
     }
 
@@ -165,5 +171,33 @@ public class UpiPaymentActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        alertDialog();
+    }
+
+
+    private void alertDialog() {
+        AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+        dialog.setMessage("Do you want to cancel the order");
+        dialog.setTitle("WARNING");
+        dialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        startActivity(new Intent(UpiPaymentActivity.this,MainActivity.class));
+                        finish();
+                    }
+                });
+        dialog.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(),"cancel is clicked",Toast.LENGTH_LONG).show();
+            }
+        });
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
     }
 }

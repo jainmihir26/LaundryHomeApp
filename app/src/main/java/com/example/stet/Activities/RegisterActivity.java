@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
 import com.example.stet.Helper.UserDetailsSharedPreferences;
 import com.example.stet.R;
@@ -36,10 +37,13 @@ public class RegisterActivity extends AppCompatActivity {
     EditText confirm_password_register;
     TextView sign_in;
     FloatingActionButton button_register;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+
 
         checkAlreadyUser();
 
@@ -72,12 +76,13 @@ public class RegisterActivity extends AppCompatActivity {
                 final String confirm_password = confirm_password_register.getText().toString().trim();
 
 
-                SharedPreferences sharedPreferences= getBaseContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
-                SharedPreferences.Editor editor=sharedPreferences.edit();
-                editor.putString(UserDetailsSharedPreferences.firstName,first_name);
-                editor.putString(UserDetailsSharedPreferences.userPhoneNumber,phone_number);
-                editor.putString(UserDetailsSharedPreferences.userEmail,email);
-                editor.apply();
+
+                SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getApplicationContext());
+                sharedPreferencesConfig.write_full_name(first_name+" "+last_name);
+                sharedPreferencesConfig.write_email(email);
+                sharedPreferencesConfig.write_phone_number(phone_number);
+
+
 
                 if(password.equals(confirm_password)){
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.registerUrl, new Response.Listener<String>() {
@@ -117,8 +122,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void checkAlreadyUser() {
-        SharedPreferences sharedPreferences= getBaseContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
-        String token=sharedPreferences.getString(UserDetailsSharedPreferences.userIdToken,"DEFAULT_TOKEN");
+        SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);
+        String token=sharedPreferencesConfig.read_token();
         if(token.equals("DEFAULT_TOKEN")){
             return ;
         }else{
@@ -132,16 +137,15 @@ public class RegisterActivity extends AppCompatActivity {
 
         try {
             JSONObject jsonObject = new JSONObject(response);
-
             if(jsonObject.getString("error").equals("false")){
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
-                SharedPreferences.Editor editor=sharedPreferences.edit();
-                editor.putString(UserDetailsSharedPreferences.userIdToken,jsonObject.getString("token"));
-                editor.commit();
 
-                Toast.makeText(this,jsonObject.getString("token"), Toast.LENGTH_SHORT).show();
+                SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);
+                sharedPreferencesConfig.write_token(jsonObject.getString("token"));
+
+
                 Intent intent = new Intent(getApplicationContext(),VerifyOtpActivity.class);
                 startActivity(intent);
+                finish();
 
             }else{
                 Toast.makeText(this,jsonObject.getString("message"), Toast.LENGTH_SHORT).show();

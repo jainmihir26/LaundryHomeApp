@@ -8,20 +8,40 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.stet.Adapters.SwipeAdapter;
 import com.example.stet.Fragment.BottomFragment;
+import com.example.stet.Fragment.CartFragment;
 import com.example.stet.Fragment.DressFragment;
+import com.example.stet.Fragment.HomeFragment;
 import com.example.stet.Fragment.HouseholdFragment;
 import com.example.stet.Fragment.TopFragment;
+import com.example.stet.Helper.SharedPreferencesConfig;
+import com.example.stet.Helper.Urls;
 import com.example.stet.Models.ClothSelectorContract;
 import com.example.stet.Models.ClothSelectorDbHelper;
+import com.example.stet.Models.DataClothCart;
 import com.example.stet.R;
 import com.google.android.material.tabs.TabLayout;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ClothSelectActivity extends AppCompatActivity  implements TopFragment.TotalChangeTop, BottomFragment.TotalChangeBottom, HouseholdFragment.TotalChangeHousehold, DressFragment.TotalChangeDress {
 
@@ -30,7 +50,7 @@ public class ClothSelectActivity extends AppCompatActivity  implements TopFragme
     private ViewPager viewPager;
     private SwipeAdapter swipeAdapter;
     TextView quantity_wash_fold,amount_wash_fold;
-    private Button mNext;
+    private Button mNext,mAddToCart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,19 +63,77 @@ public class ClothSelectActivity extends AppCompatActivity  implements TopFragme
         quantity_wash_fold = findViewById(R.id.quantity_wash_fold);
         amount_wash_fold = findViewById(R.id.amount_wash_fold);
         mNext=findViewById(R.id.next_ClothSelectId);
+        mAddToCart = findViewById(R.id.addToCart_ClothSelectId);
+
+
 
         mNext.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                String amount=amount_wash_fold.getText().toString();
-                String amt=amount.substring(6);
-//                Toast.makeText(ClothSelectActivity.this, "amount is "+amt, Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(ClothSelectActivity.this,UpiPaymentActivity.class);
-                intent.putExtra("amount",amt);
+            public void onClick(View view){
+                    Toast.makeText(ClothSelectActivity.this, "next pressed", Toast.LENGTH_SHORT).show();
+
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST,Urls.dataFromCartUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(ClothSelectActivity.this, "Done", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<>();
+                        SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getApplicationContext());
+
+                        JSONArray array=new JSONArray();
+
+                        ClothSelectorDbHelper clothSelectorDbHelper = new ClothSelectorDbHelper(getApplicationContext());
+                        SQLiteDatabase sqLiteDatabase = clothSelectorDbHelper.getReadableDatabase();
+                        Cursor cursor = clothSelectorDbHelper.readContacts(sqLiteDatabase);
+
+                        while (cursor.moveToNext())
+                        {
+                            int count = cursor.getInt(cursor.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_COUNT));
+                            int id = cursor.getInt(cursor.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_ID));
+                            if(count !=0 ){
+                                JSONObject obj=new JSONObject();
+                                try {
+                                    obj.put("item_id",id);
+                                    obj.put("quantity",count);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                array.put(obj);
+                            }
+
+                        }
+
+                        cursor.close();
+                        params.put("token",sharedPreferencesConfig.read_token());
+                        params.put("items",array.toString());
+                        return params;
+                    }
+
+                };
+
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                requestQueue.add(stringRequest);
+
+
+                Intent intent=new Intent(ClothSelectActivity.this,OrderDetails.class);
                 startActivity(intent);
             }
         });
 
+        mAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
+            }
+        });
 
 
         ClothSelectorDbHelper clothSelectorDbHelper = new ClothSelectorDbHelper(getApplicationContext());

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,7 +43,19 @@ public class CartFragment extends Fragment {
         placeOrderButton = v.findViewById(R.id.place_order_button);
         addMoreTextView = v.findViewById(R.id.add_more_textView);
         totalAmountTextView = v.findViewById(R.id.total_amount_textView);
+        cartItemsRecyclerView = v.findViewById(R.id.recycler_view_fragment_cart);
 
+        ClothSelectorDbHelper clothSelectorDbHelper_totalCost = new ClothSelectorDbHelper(getActivity());
+        SQLiteDatabase sqLiteDatabase_totalCost = clothSelectorDbHelper_totalCost.getReadableDatabase();
+        Cursor cursor_totalCost = clothSelectorDbHelper_totalCost.readContacts(sqLiteDatabase_totalCost);
+        int total_cost = 0;
+        while (cursor_totalCost.moveToNext())
+        {
+            int cloth_price = cursor_totalCost.getInt(cursor_totalCost.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_PRICE));
+            int cloth_count = cursor_totalCost.getInt(cursor_totalCost.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_COUNT));
+            total_cost += cloth_price*cloth_count;
+        }
+        cursor_totalCost.close();
 
         totalAmountTextView.setText(total_cost+" $");
 
@@ -82,8 +95,7 @@ public class CartFragment extends Fragment {
         addMoreTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new HomeFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
             }
         });
 
@@ -105,6 +117,7 @@ public class CartFragment extends Fragment {
             TextView textViewClothQuantity;
             TextView textViewServiceType;
             TextView textViewClothCost;
+            Button delete_item;
 
             public ViewHolder(View itemView)
             {
@@ -112,6 +125,7 @@ public class CartFragment extends Fragment {
                 this.textViewClothQuantity = (TextView) itemView.findViewById(R.id.cloth_quntity_type_recycler_view_item);
                 this.textViewServiceType = (TextView) itemView.findViewById(R.id.service_type_cart);
                 this.textViewClothCost = (TextView) itemView.findViewById(R.id.cost_per_item_textView);
+                this.delete_item = (Button) itemView.findViewById(R.id.delete_item_cart);
 
             }
         }
@@ -132,6 +146,18 @@ public class CartFragment extends Fragment {
             holder.textViewServiceType.setText(dataList.get(position).getServiceType());
             holder.textViewClothCost.setText(Integer.toString(dataList.get(position).getCost())+" $");
 
+            holder.delete_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ClothSelectorDbHelper clothSelectorDbHelper = new ClothSelectorDbHelper(getActivity());
+                    SQLiteDatabase sqLiteDatabase = clothSelectorDbHelper.getWritableDatabase();
+                    clothSelectorDbHelper.updateCountToZero(dataList.get(position).getId(),sqLiteDatabase);
+                    clothSelectorDbHelper.close();
+
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
+
+                }
+            });
         }
 
         @Override

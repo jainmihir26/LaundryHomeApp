@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.stet.Activities.RegisterActivity;
+import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
 import com.example.stet.Helper.UserDetailsSharedPreferences;
 import com.example.stet.R;
@@ -50,11 +51,14 @@ public class AccountFragment extends Fragment {
 
         assert container != null;
         final Context thisContext=container.getContext();
-        SharedPreferences sharedPreferences=thisContext.getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,Context.MODE_PRIVATE);
-        String userName1=sharedPreferences.getString(UserDetailsSharedPreferences.firstName,"DEFAULT NAME");
-        String userEmail1=sharedPreferences.getString(UserDetailsSharedPreferences.userEmail,"DEFAULT Email");
-        String userAddress1=sharedPreferences.getString(UserDetailsSharedPreferences.userAddress,"DEFAULT ADDRESS");
-        String phoneNumber1=sharedPreferences.getString(UserDetailsSharedPreferences.userPhoneNumber,"DEFAULT_PHONE");
+
+        SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getActivity());
+        String userName1 = sharedPreferencesConfig.read_full_name();
+        String userEmail1 = sharedPreferencesConfig.read_email();
+        String phoneNumber1 = sharedPreferencesConfig.read_phone_number();
+        String userAddress1 = sharedPreferencesConfig.read_address();
+
+
         mName.setText(userName1);
         mEmail.setText(userEmail1);
         mAddress.setText(userAddress1);
@@ -71,30 +75,28 @@ public class AccountFragment extends Fragment {
         return v;
     }
 
-    private void logoutClicked(final Context thicContext) {
-        final SharedPreferences sharedPreferences= thicContext.getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor=sharedPreferences.edit();
+    private void logoutClicked(final Context thisContext) {
 
-        final String token=sharedPreferences.getString(UserDetailsSharedPreferences.userIdToken,"DEFAULT TOKEN");
+        final SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getActivity());
+        final String token=sharedPreferencesConfig.read_token();
+
         StringRequest stringRequest=new StringRequest(Request.Method.POST, Urls.logoutUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(thicContext, response, Toast.LENGTH_SHORT).show();
                         try {
                             JSONObject jsonObject=new JSONObject(response);
                             if(jsonObject.getString("error").equals("false")){
-                                Toast.makeText(thicContext, "Logout Successful", Toast.LENGTH_SHORT).show();
-                                    editor.clear();
-                                    editor.apply();
-                                Intent intent =new Intent(thicContext, RegisterActivity.class);
+                                Toast.makeText(thisContext, "Logout Successful", Toast.LENGTH_SHORT).show();
+                                sharedPreferencesConfig.clear_preferences();
+                                Intent intent =new Intent(thisContext, RegisterActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                             }else{
                                 Log.e(TAG, "onResponse: Something wrong");
                             }
                         } catch (JSONException e) {
-                            Toast.makeText(thicContext, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(thisContext, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -102,7 +104,7 @@ public class AccountFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(thicContext, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(thisContext, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
         ){
@@ -113,7 +115,7 @@ public class AccountFragment extends Fragment {
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(thicContext);
+        RequestQueue requestQueue = Volley.newRequestQueue(thisContext);
         requestQueue.add(stringRequest);
     }
 

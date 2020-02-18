@@ -3,6 +3,7 @@ package com.example.stet.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -12,9 +13,23 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.stet.Adapters.PlaceAutoSuggestAdapter;
+import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
 import com.example.stet.R;
 import com.example.stet.Helper.UserDetailsSharedPreferences;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
 
@@ -24,10 +39,12 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,6 +65,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONException;
@@ -59,9 +78,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
-
+import static java.lang.Thread.sleep;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -100,7 +117,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 15f;
-
+    private static  GoogleApiClient googleApiClient;
     //widgets
 
     private EditText mSearchText;
@@ -111,12 +128,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private EditText mArea;
     private Button mSaveButton;
     private Button mProceed;
+    private AutoCompleteTextView autoCompleteTextView;
+    String from_activity;
 
 
     //vars
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
     private ImageView mGps;
+    String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION};
 
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -125,7 +146,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        mSearchText = findViewById(R.id.map_inputTextId);
+//        mSearchText = findViewById(R.id.map_inputTextId);
+
+        from_activity = getIntent().getStringExtra("from_activity");
         mGps = findViewById(R.id.map_mGpsId);
         mMainAdrees = findViewById(R.id.map_mainAddressId);
         mApartmentName = findViewById(R.id.map_apartmentNameId);
@@ -140,8 +163,34 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMainAdrees.setFocusable(false);
         mMainAdrees.setSelected(false);
         mMainAdrees.setKeyListener(null);
-//        mProceed=findViewById(R.id.map_proceedButton);
 
+
+        autoCompleteTextView=findViewById(R.id.autocomplete);
+        autoCompleteTextView.setAdapter(new PlaceAutoSuggestAdapter(MapsActivity.this,android.R.layout.simple_list_item_1));
+        autoCompleteTextView.setImeActionLabel("Custom Text",KeyEvent.KEYCODE_ENTER);
+        Log.d(TAG, "onCreate: "+" heyyyy");
+        autoCompleteTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || event.getAction() == KeyEvent.ACTION_DOWN
+                        || event.getAction() == KeyEvent.KEYCODE_ENTER) {
+
+                    Toast.makeText(MapsActivity.this, "Geolocating.", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onEditorAction: Yo I am in.");
+                    try {
+                        geoLocateForInputSearch();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    Toast.makeText(MapsActivity.this, "In else//////", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onEditorAction: IME search failed.");
+                }
+                return false;
+            }
+        });
         getLocationPermission();
 
         saveButtonClicked();
@@ -153,27 +202,27 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "init: initializing.");
 //        Toast.makeText(MapsActivity.this, "In init method ........", Toast.LENGTH_SHORT).show();
 
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || event.getAction() == KeyEvent.ACTION_DOWN
-                        || event.getAction() == KeyEvent.KEYCODE_ENTER) {
-
-                    Toast.makeText(MapsActivity.this, "Geolocating.", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onEditorAction: Yo I am in.");
-                    geoLocateForInputSearch();
-
-
-                } else {
-                    Toast.makeText(MapsActivity.this, "In else//////", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "onEditorAction: IME search failed.");
-                }
-                return false;
-            }
-        });
+//        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//
+//                if (actionId == EditorInfo.IME_ACTION_SEARCH
+//                        || actionId == EditorInfo.IME_ACTION_DONE
+//                        || event.getAction() == KeyEvent.ACTION_DOWN
+//                        || event.getAction() == KeyEvent.KEYCODE_ENTER) {
+//
+//                    Toast.makeText(MapsActivity.this, "Geolocating.", Toast.LENGTH_SHORT).show();
+//                    Log.d(TAG, "onEditorAction: Yo I am in.");
+//                    geoLocateForInputSearch();
+//
+//
+//                } else {
+//                    Toast.makeText(MapsActivity.this, "In else//////", Toast.LENGTH_SHORT).show();
+//                    Log.e(TAG, "onEditorAction: IME search failed.");
+//                }
+//                return false;
+//            }
+//        });
 
         mGps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,11 +236,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     // from the search string move the camera to that location.
-    private void geoLocateForInputSearch() {
+    private void geoLocateForInputSearch() throws InterruptedException {
 
         Log.d(TAG, "geoLocateForInputSearch: geolocaitng");
 
-        String searchString = mSearchText.getText().toString();
+//        String searchString = mSearchText.getText().toString();
+        String searchString = autoCompleteTextView.getText().toString();
+
+        Log.i(TAG, "geoLocateForInputSearch: searchString"+searchString);
 
         Geocoder geocoder = new Geocoder(MapsActivity.this);
 
@@ -211,6 +263,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Toast.makeText(MapsActivity.this, "geoLocateForInputSearch: Location is  : " + address.toString(), Toast.LENGTH_SHORT).show();
 
             Log.d(TAG, "geoLocateForInputSearch: Location is  : " + address.toString());
+            String locality=address.getLocality();
+
+            if(!locality.equals("Pune")){
+
+                autoCompleteTextView.setError("Currently we are not available here.");
+                autoCompleteTextView.requestFocus(1);
+                sleep(2000);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        autoCompleteTextView.getText().clear();
+                    }
+                },2000);
+
+                return;
+            }
 
             moveCamera1(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
 
@@ -218,7 +286,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private void geoLocateForCurrentLocation(double currentLatitude, double currentLongitude) {
+    private void geoLocateForCurrentLocation(double currentLatitude, double currentLongitude) throws InterruptedException {
         Geocoder geocoder = new Geocoder(MapsActivity.this);
         List<Address> list = new ArrayList<>();
         try {
@@ -231,6 +299,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Address address;
             address = list.get(0);
             Log.d(TAG, "geoLocateForCurrentLocation: " + address.toString() + " \naddress Lines" + address.getAddressLine(0));
+            String locality=address.getLocality();
+            if(!locality.equals("Pune")){
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMainAdrees.setError("Currently we are not available here.");
+                        mMainAdrees.requestFocus();
+
+                    }
+                },2000);
+
+                return;
+            }
+
             moveCamera1(new LatLng(currentLatitude, currentLongitude), DEFAULT_ZOOM, "My Location");
             mMainAdrees.setText(address.getAddressLine(0));
         }
@@ -258,6 +341,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     geoLocateForCurrentLocation(currentLocation.getLatitude(), currentLocation.getLongitude());
                                 } catch (Exception e) {
                                     Toast.makeText(MapsActivity.this, "Please turn on your mobile location or ", Toast.LENGTH_SHORT).show();
+                                    onTheLocation();
+                                    try {
+                                        geoLocateForCurrentLocation(currentLocation.getLatitude(), currentLocation.getLongitude());
+                                    } catch (InterruptedException ex) {
+                                        ex.printStackTrace();
+                                    }
                                 }
 
                             } else {
@@ -267,6 +356,49 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     });
         }
+    }
+
+    private void onTheLocation() {
+        LocationRequest mLocationRequest = LocationRequest.create();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+
+        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                Toast.makeText(MapsActivity.this, "addOnSuccessListener", Toast.LENGTH_SHORT).show();
+                // All location settings are satisfied. The client can initialize
+                // location requests here.
+                // ...
+            }
+        });
+
+        task.addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MapsActivity.this, "addOnFailureListener", Toast.LENGTH_SHORT).show();
+                if (e instanceof ResolvableApiException) {
+                    // Location settings are not satisfied, but this can be fixed
+                    // by showing the user a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult(MapsActivity.this,
+                                2001);
+                    } catch (IntentSender.SendIntentException sendEx) {
+                        // Ignore the error.
+                    }
+                }
+            }
+        });
     }
 
     private void moveCamera1(LatLng latLng, float zoom, String title) {
@@ -292,8 +424,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void getLocationPermission() {
         Log.d(TAG, "getLocationPermission: getting location permissions");
-        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION};
+
 
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -345,8 +476,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.d(TAG, "onClick: On button clicked. ");
 
                 if (mMainAdrees.getText().toString().isEmpty()) {
-                    mSearchText.setError("Please select your address");
-                    mSearchText.requestFocus();
+                    autoCompleteTextView.setError("Please enter your Main Address");
+                    autoCompleteTextView.requestFocus();
                     return;
                 }
 
@@ -379,14 +510,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.d(TAG, "onClick: " + " ininin.");
 //                sendAddressToDatabase(mainAddress,aptNumber,landmark,buildingName,area);
                 sendAddressToDatabase(mainAddress, aptNumber, landmark, buildingName, area);
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences, MODE_PRIVATE);
-                SharedPreferences.Editor mEditor = sharedPreferences.edit();
-                mEditor.putString(UserDetailsSharedPreferences.userAddress, mainAddress);
-                mEditor.apply();
 
-                Intent intent=new Intent(MapsActivity.this,MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+
+                SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(MapsActivity.this);
+                sharedPreferencesConfig.write_address(mainAddress+" "+aptNumber+" "+landmark+" "+buildingName+" "+area);
+
+
+                if(from_activity.equals("VerifyOtpActivity")){
+                    Intent intent=new Intent(MapsActivity.this,MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }else{
+                    Intent intent=new Intent(MapsActivity.this,OrderDetails.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+
+//                startActivity(new Intent(MapsActivity.this,HomeActivity.class));
 //                startActivity(new Intent(MapsActivity.this,HomeActivity.class));
             }
         });

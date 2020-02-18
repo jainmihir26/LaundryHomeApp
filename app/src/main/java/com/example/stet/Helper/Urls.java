@@ -6,5 +6,8 @@ public class Urls {
     final public static String mapsUrl=mainUrl+"add_address/";
     final public static String verifyOtpUrl=mainUrl+"verify_otp/";
     final public static String registerUrl=mainUrl+"register/";
+    final public static String dataFromCartUrl=mainUrl+"put_cart/";
+    final public static String PickDropUrl=mainUrl+"put_order/";
     public static String logoutUrl=mainUrl+"logout/";
+
 }

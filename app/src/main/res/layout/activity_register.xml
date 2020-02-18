@@ -49,7 +49,9 @@
                 android:hint="First Name"
                 android:padding="15dp"
                 android:inputType="textPersonName"
-                android:textColorHint="@android:color/white" />
+                android:textColorHint="@android:color/white"
+                android:textColor="@android:color/white"
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,7 +67,8 @@
                 android:layout_marginEnd="30dp"
                 android:hint="Last Name"
                 android:padding="15dp"
-                android:textColorHint="@android:color/white" />
+                android:textColorHint="@android:color/white"
+                android:textColor="@android:color/white"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,7 +104,7 @@
                 android:layout_marginEnd="30dp"
                 android:inputType="phone"
                 android:textColorHint="#494949"
-                android:textColor="#292929"/>
+                android:textColor="@android:color/white"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,7 +123,8 @@
                 android:layout_marginEnd="30dp"
                 android:inputType="textPassword"
                 android:textColorHint="@android:color/white"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white"
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
