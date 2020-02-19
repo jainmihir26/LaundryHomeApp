@@ -84,9 +84,8 @@
                 android:layout_marginLeft="30dp"
                 android:layout_width="110dp"
                 android:id="@+id/theyAfterTomorrowPickup_orderDetailsId"
-                android:layout_height="60dp"
+                android:layout_height="55dp"
                 android:layout_gravity="center_vertical"
-                android:height="55dp"
                 android:text="9 Dec" />
         </LinearLayout>
 

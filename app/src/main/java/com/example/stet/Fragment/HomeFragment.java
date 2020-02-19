@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
 
         SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getActivity());
         display_username = view.findViewById(R.id.homeFragment_helloTextId);
-        display_username.setText("Hello "+sharedPreferencesConfig.read_full_name());
+        display_username.setText("Hello "+sharedPreferencesConfig.read_full_name().substring(0,1).toUpperCase()+sharedPreferencesConfig.read_full_name().substring(1));
 
         final Context thisContext = container.getContext() ;
         mGridView=view.findViewById(R.id.home_gridViewId);

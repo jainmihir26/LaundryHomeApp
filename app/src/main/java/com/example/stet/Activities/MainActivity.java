@@ -21,6 +21,7 @@ import com.example.stet.Fragment.HomeFragment;
 import com.example.stet.Fragment.OfferFragment;
 import com.example.stet.Fragment.OrderFragment;
 import com.example.stet.Helper.SharedPreferencesConfig;
+import com.example.stet.Helper.Urls;
 import com.example.stet.Models.ClothSelectorDbHelper;
 import com.example.stet.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,7 +32,6 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    String url = "http://192.168.43.62:8002/apis/get_price_list/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);
         sharedPreferencesConfig.write_PriceObjId(0);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.PriceObjUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 parseData(response);
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.PriceObjUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 parseData(response);

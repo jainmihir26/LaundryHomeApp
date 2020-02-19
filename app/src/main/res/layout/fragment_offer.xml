@@ -2,14 +2,50 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_green_light">
+    android:padding="10dp">
+
 
     <TextView
+        android:id="@+id/promotions_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Offers fragment"
+        android:text="Promotions"
+        android:textColor="@color/black"
         android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_below="@+id/promotions_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Limit of one per user"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif"
+        android:layout_marginTop="5dp"/>
+
+
+    <View
+        android:id="@+id/line_promotions"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="6"
+        android:background="@color/active_dots"
+        android:layout_marginTop="100dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_promotions"
+        android:layout_below="@+id/line_promotions"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+
 
 
 

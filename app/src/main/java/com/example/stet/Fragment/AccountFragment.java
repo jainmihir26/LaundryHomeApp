@@ -1,6 +1,8 @@
 package com.example.stet.Fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.stet.Activities.RegisterActivity;
+import com.example.stet.Activities.TermsAndPolicyActivity;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
 import com.example.stet.Helper.UserDetailsSharedPreferences;
@@ -43,6 +46,7 @@ public class AccountFragment extends Fragment {
     private TextView mEmail ;
     private TextView mAddress ;
     private TextView mPhoneNumber;
+    private TextView mTerms ;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,7 +71,24 @@ public class AccountFragment extends Fragment {
         mLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logoutClicked(thisContext);
+                AlertDialog.Builder builder= new AlertDialog.Builder(thisContext);
+
+                builder.setMessage("Are you sure, you want to Log Out ?").setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logoutClicked(thisContext);
+                    }
+                }).setNegativeButton("NO",null);
+
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
+            }
+        });
+
+        mTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(thisContext, TermsAndPolicyActivity.class));
             }
         });
 
@@ -125,5 +146,6 @@ public class AccountFragment extends Fragment {
         mAddress=view.findViewById(R.id.accountF_userAddressId);
         mLogout=view.findViewById(R.id.accountF_logoutId);
         mPhoneNumber=view.findViewById(R.id.accountF_userPhoneNumberId);
+        mTerms=view.findViewById(R.id.accountF_termsId);
     }
 }

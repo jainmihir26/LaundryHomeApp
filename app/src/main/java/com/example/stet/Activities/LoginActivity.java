@@ -113,6 +113,9 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "parseData: phone_no "+phoneNumber);
                 String email=jsonObject.getString("email");
                 Log.d(TAG, "parseData:email is  "+email);
+                JSONObject jsonObject_address =jsonObject.getJSONObject("address");
+
+
 
 
                 SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);
@@ -120,6 +123,8 @@ public class LoginActivity extends AppCompatActivity {
                 sharedPreferencesConfig.write_email(email);
                 sharedPreferencesConfig.write_phone_number(phoneNumber);
                 sharedPreferencesConfig.write_token(jsonObject.getString("token"));
+                sharedPreferencesConfig.write_address(jsonObject_address.getString("main_address"));
+
 
 
 //                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);

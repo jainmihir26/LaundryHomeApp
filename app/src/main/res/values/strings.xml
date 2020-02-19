@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">STET</string>
+    <string name="app_name">Washkar</string>
     <string name="home">Home</string>
     <string name="order">Order</string>
     <string name="offers">Offers</string>
@@ -23,8 +23,6 @@
     <string name="PHONE_NUMBER">PhoneNumber</string>
     <string name="TOKEN">Token</string>
     <string name="ADDRESS">Address</string>
-
-
 
 
 </resources>

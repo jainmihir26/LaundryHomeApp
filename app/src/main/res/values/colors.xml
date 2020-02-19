@@ -15,4 +15,6 @@
 
     <color name="active_dots">#FF3F51B5</color>
     <color name="inactive_dots">#FF726C6C</color>
+
+    <color name="promo">#D8D3D3</color>
 </resources>

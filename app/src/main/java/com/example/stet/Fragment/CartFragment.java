@@ -143,7 +143,25 @@ public class CartFragment extends Fragment {
         public void onBindViewHolder(final ListAdapter.ViewHolder holder, final int position)
         {
             holder.textViewClothQuantity.setText(dataList.get(position).getClothQuantity());
-            holder.textViewServiceType.setText(dataList.get(position).getServiceType());
+            String service_type;
+
+            switch(dataList.get(position).getServiceType()){
+                case "wash_fold":
+                    service_type = "(Wash & Fold)";
+                    break;
+                case "wash_iron":
+                    service_type = "(Wash & Iron)";
+                    break;
+                case "iron":
+                    service_type= "(Iron)";
+                    break;
+                case "dry_clean":
+                    service_type="(DryClean)";
+                    break;
+                default:
+                    service_type="(No Service)";
+            }
+            holder.textViewServiceType.setText(service_type);
             holder.textViewClothCost.setText(Integer.toString(dataList.get(position).getCost())+" $");
 
             holder.delete_item.setOnClickListener(new View.OnClickListener() {

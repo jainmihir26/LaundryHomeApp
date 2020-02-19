@@ -85,14 +85,15 @@ public class VerifyOtpActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
                 SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(VerifyOtpActivity.this);
-
-
                 params.put("phone_no",sharedPreferencesConfig.read_phone_number());
                 params.put("otp",otp1);
                 params.put("token",sharedPreferencesConfig.read_token());
+                Log.d("getParams:",sharedPreferencesConfig.read_token());
                 return params;
             }
         };
+
+
         RequestQueue requestQueue = Volley.newRequestQueue(VerifyOtpActivity.this);
         requestQueue.add(stringRequest);
     }

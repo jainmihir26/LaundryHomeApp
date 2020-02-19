@@ -72,7 +72,7 @@ public class OrderDetails extends AppCompatActivity {
                 mPickUpDateToday.setPressed(true);
                 mPickUpDateTomorrow.setPressed(false);
                 mPickUpDateTheAfterTomorrow.setPressed(false);
-                mPickUpDateToday.setBackgroundColor(Color.BLUE);
+                mPickUpDateToday.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mPickUpDateTomorrow.setBackgroundColor(Color.GRAY);
                 mPickUpDateTheAfterTomorrow.setBackgroundColor(Color.GRAY);
             }
@@ -85,7 +85,7 @@ public class OrderDetails extends AppCompatActivity {
                 mPickUpDateToday.setPressed(false);
                 mPickUpDateTomorrow.setPressed(true);
                 mPickUpDateTheAfterTomorrow.setPressed(false);
-                mPickUpDateTomorrow.setBackgroundColor(Color.BLUE);
+                mPickUpDateTomorrow.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mPickUpDateToday.setBackgroundColor(Color.GRAY);
                 mPickUpDateTheAfterTomorrow.setBackgroundColor(Color.GRAY);
             }
@@ -99,7 +99,7 @@ public class OrderDetails extends AppCompatActivity {
                 mPickUpDateTheAfterTomorrow.setPressed(true);
                 mPickUpDateTomorrow.setBackgroundColor(Color.GRAY);
                 mPickUpDateToday.setBackgroundColor(Color.GRAY);
-                mPickUpDateTheAfterTomorrow.setBackgroundColor(Color.BLUE);
+                mPickUpDateTheAfterTomorrow.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
 
             }
         });
@@ -110,7 +110,7 @@ public class OrderDetails extends AppCompatActivity {
                 mDeliveryDateTomorrow.setPressed(true);
                 mDeliveryDateTheAfter.setPressed(false);
                 mDeliveryDateTheAfterAfter.setPressed(false);
-                mDeliveryDateTomorrow.setBackgroundColor(Color.BLUE);
+                mDeliveryDateTomorrow.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mDeliveryDateTheAfter.setBackgroundColor(Color.GRAY);
                 mDeliveryDateTheAfterAfter.setBackgroundColor(Color.GRAY);
 
@@ -125,7 +125,7 @@ public class OrderDetails extends AppCompatActivity {
                 mDeliveryDateTheAfter.setPressed(true);
                 mDeliveryDateTheAfterAfter.setPressed(true);
                 mDeliveryDateTomorrow.setBackgroundColor(Color.GRAY);
-                mDeliveryDateTheAfter.setBackgroundColor(Color.BLUE);
+                mDeliveryDateTheAfter.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mDeliveryDateTheAfterAfter.setBackgroundColor(Color.GRAY);
             }
         });
@@ -139,7 +139,7 @@ public class OrderDetails extends AppCompatActivity {
                 mDeliveryDateTheAfterAfter.setPressed(true);
                 mDeliveryDateTomorrow.setBackgroundColor(Color.GRAY);
                 mDeliveryDateTheAfter.setBackgroundColor(Color.GRAY);
-                mDeliveryDateTheAfterAfter.setBackgroundColor(Color.BLUE);
+                mDeliveryDateTheAfterAfter.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
 
             }
         });
@@ -151,7 +151,7 @@ public class OrderDetails extends AppCompatActivity {
                 mPickupTime12.setPressed(false);
                 mPickupTime4.setPressed(false);
 
-                mPickupTime10.setBackgroundColor(Color.BLUE);
+                mPickupTime10.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mPickupTime12.setBackgroundColor(Color.GRAY);
                 mPickupTime4.setBackgroundColor(Color.GRAY);
             }
@@ -166,7 +166,7 @@ public class OrderDetails extends AppCompatActivity {
                 mPickupTime4.setPressed(false);
 
                 mPickupTime10.setBackgroundColor(Color.GRAY);
-                mPickupTime12.setBackgroundColor(Color.BLUE);
+                mPickupTime12.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mPickupTime4.setBackgroundColor(Color.GRAY);
             }
         });
@@ -181,7 +181,7 @@ public class OrderDetails extends AppCompatActivity {
 
                 mPickupTime10.setBackgroundColor(Color.GRAY);
                 mPickupTime12.setBackgroundColor(Color.GRAY);
-                mPickupTime4.setBackgroundColor(Color.BLUE);
+                mPickupTime4.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
             }
         });
 
@@ -193,7 +193,7 @@ public class OrderDetails extends AppCompatActivity {
                 mDelivery10.setPressed(false);
                 mDelivery12.setPressed(false);
 
-                mDelivery4.setBackgroundColor(Color.BLUE);
+                mDelivery4.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mDelivery10.setBackgroundColor(Color.GRAY);
                 mDelivery12.setBackgroundColor(Color.GRAY);
 
@@ -209,7 +209,7 @@ public class OrderDetails extends AppCompatActivity {
                 mDelivery12.setPressed(false);
 
                 mDelivery4.setBackgroundColor(Color.GRAY);
-                mDelivery10.setBackgroundColor(Color.BLUE);
+                mDelivery10.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mDelivery12.setBackgroundColor(Color.GRAY);
 
             }
@@ -224,7 +224,7 @@ public class OrderDetails extends AppCompatActivity {
 
                 mDelivery4.setBackgroundColor(Color.GRAY);
                 mDelivery10.setBackgroundColor(Color.GRAY);
-                mDelivery12.setBackgroundColor(Color.BLUE);
+                mDelivery12.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
 
             }
         });

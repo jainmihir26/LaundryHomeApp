@@ -547,7 +547,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
-                SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
+                SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getApplicationContext());
+
                 JSONObject jsonObject=new JSONObject();
                 try {
                     jsonObject.put("main_address",mainAddress);
@@ -558,7 +559,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                params.put("token",sharedPreferences.getString(UserDetailsSharedPreferences.userIdToken,"Default ToKEN"));
+                params.put("token",sharedPreferencesConfig.read_token());
                 params.put("address",jsonObject.toString());
                 return params;
             }
