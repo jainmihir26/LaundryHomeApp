@@ -145,15 +145,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-//                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
-//                SharedPreferences.Editor editor=sharedPreferences.edit();
-//                editor.putString(UserDetailsSharedPreferences.userIdToken,);
-//                editor.putString(UserDetailsSharedPreferences.firstName,firstName);
-//                editor.putString(UserDetailsSharedPreferences.lastName,lastName);
-//                editor.putString(UserDetailsSharedPreferences.userPhoneNumber,phoneNumber);
-//                editor.putString(UserDetailsSharedPreferences.userEmail,email);
-//                editor.apply();
-
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
                 finish();

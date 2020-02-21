@@ -1,5 +1,6 @@
 package com.example.stet.Fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stet.Activities.MainActivity;
+import com.example.stet.Activities.OrderDetails;
 import com.example.stet.Models.ClothSelectorContract;
 import com.example.stet.Models.ClothSelectorDbHelper;
 import com.example.stet.Models.DataClothCart;
@@ -30,6 +33,7 @@ public class CartFragment extends Fragment {
     private ListAdapter mListadapter;
 
     int flag;
+
 
     @Nullable
     @Override
@@ -196,6 +200,9 @@ public class CartFragment extends Fragment {
         {
             return dataList.size();
         }
+
+
+
     }
 }
 

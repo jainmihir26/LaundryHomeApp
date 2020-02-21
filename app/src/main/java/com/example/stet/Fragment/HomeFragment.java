@@ -3,6 +3,8 @@ package com.example.stet.Fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,9 @@ import com.example.stet.Activities.ClothSelectActivity;
 import com.example.stet.Adapters.HomeAdapter;
 import com.example.stet.Helper.ServiceTypes;
 import com.example.stet.Helper.SharedPreferencesConfig;
+import com.example.stet.Models.ClothSelectorContract;
+import com.example.stet.Models.ClothSelectorDbHelper;
+import com.example.stet.Models.DataClothCart;
 import com.example.stet.Models.HomeModel;
 import com.example.stet.R;
 
@@ -33,13 +38,21 @@ public class HomeFragment extends Fragment {
     private ArrayList<HomeModel> mArrayList;
     private TextView mUserName;
     private TextView display_username;
-    private String url_landing_page = "http://192.168.0.103:8000/apis/get_price_list/";
+    private int wash_fold_count=0;
+    private int iron_count=0;
+    private int wash_iron_count=0;
+    private int dry_clean_count=0;
 
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        int wash_fold_count=0;
+        int iron_count=0;
+        int wash_iron_count=0;
+        int dry_clean_count=0;
 
         View view =inflater.inflate(R.layout.fragment_home,container,false);
 
@@ -50,13 +63,42 @@ public class HomeFragment extends Fragment {
         final Context thisContext = container.getContext() ;
         mGridView=view.findViewById(R.id.home_gridViewId);
 
+        ClothSelectorDbHelper clothSelectorDbHelper = new ClothSelectorDbHelper(getActivity());
+        SQLiteDatabase sqLiteDatabase = clothSelectorDbHelper.getReadableDatabase();
+        Cursor cursor = clothSelectorDbHelper.readContacts(sqLiteDatabase);
+
+        while (cursor.moveToNext())
+        {
+            String service_type = cursor.getString(cursor.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_SERVICE_TYPE));
+            int count = cursor.getInt(cursor.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_COUNT));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_ID));
+
+            switch (service_type){
+                case "wash_fold":
+                    wash_fold_count+=count;
+                    break;
+                case "iron":
+                    iron_count+=count;
+                    break;
+                case "wash_iron":
+                    wash_iron_count+=count;
+                    break;
+                case "dry_clean":
+                    dry_clean_count+=count;
+                    break;
+
+            }
+        }
+        cursor.close();
+
+
 
 
         mArrayList=new ArrayList<>();
-        mArrayList.add(new HomeModel(R.drawable.wash_and_fold));
-        mArrayList.add(new HomeModel(R.drawable.iron));
-        mArrayList.add(new HomeModel(R.drawable.wash_and_iron));
-        mArrayList.add(new HomeModel(R.drawable.dry_clean));
+        mArrayList.add(new HomeModel(R.drawable.wash_and_fold,wash_fold_count));
+        mArrayList.add(new HomeModel(R.drawable.iron,iron_count));
+        mArrayList.add(new HomeModel(R.drawable.wash_and_iron,wash_iron_count));
+        mArrayList.add(new HomeModel(R.drawable.dry_clean,dry_clean_count));
         mHomeAdapter=new HomeAdapter(thisContext,mArrayList);
         mGridView.setAdapter(mHomeAdapter);
 

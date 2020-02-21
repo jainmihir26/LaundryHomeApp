@@ -41,6 +41,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.stet.Adapters.PlaceAutoSuggestAdapter;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
+import com.example.stet.Models.DataPromotion;
 import com.example.stet.R;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -60,6 +61,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -527,6 +529,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "onResponse: "+response);
+                parseData(response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -560,8 +563,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         requestQueue.add(stringRequest);
     }
 
+    void parseData(String response){
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(response);
 
+            SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);
+            sharedPreferencesConfig.write_AddressId((int)jsonObject.get("address_id"));
 
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
 
+    }
 
 }

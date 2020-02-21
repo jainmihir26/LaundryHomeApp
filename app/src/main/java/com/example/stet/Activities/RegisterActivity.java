@@ -44,6 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);
+        sharedPreferencesConfig.write_PriceObjId(0);
 
 
         checkAlreadyUser();

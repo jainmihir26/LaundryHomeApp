@@ -25,6 +25,7 @@
     <string name="ADDRESS">Address</string>
     <string name="Rs">\u20B9</string>
     <string name="light_text">Loading</string>
+    <string name="ADDRESS_ID">address_id</string>
 
 
 </resources>
