@@ -21,6 +21,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Address"
@@ -31,9 +32,9 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit"
+                android:text="Choose Another Address"
                 android:id="@+id/edit_orderDetailsId"
-                android:layout_marginLeft="250dp"/>
+                android:layout_marginLeft="150dp"/>
         </LinearLayout>
 
         <TextView

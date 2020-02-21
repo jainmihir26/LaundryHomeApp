@@ -1,11 +1,13 @@
 package com.example.stet.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.example.stet.Models.HomeModel;
@@ -19,6 +21,7 @@ public class HomeAdapter extends BaseAdapter {
     private Context mContext ;
     private ArrayList<HomeModel>mArrayList ;
     private LayoutInflater mLayoutInflater;
+
     public HomeAdapter(Context mContext, ArrayList<HomeModel> mArrayList) {
         this.mContext = mContext;
         this.mArrayList = mArrayList;
@@ -53,6 +56,9 @@ public class HomeAdapter extends BaseAdapter {
 
             ImageView mImageView=view1.findViewById(R.id.fitInGrid_imageId);
             mImageView.setImageResource(mArrayList.get(i).getImage());
+
+            TextView mtextView = view1.findViewById(R.id.cloth_selected_grid);
+            mtextView.setText("Clothes Selected:"+Integer.toString(mArrayList.get(i).getCount_cloth()));
         }else{
             view1=view ;
         }

@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.stet.Fragment.CartFragment;
+import com.example.stet.Fragment.CartFragmentEmpty;
 import com.example.stet.Fragment.HomeFragment;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
@@ -49,12 +50,32 @@ public class Order extends AppCompatActivity {
     private TextView pick_up_order_details;
     private TextView delivery_order_details;
     private TextView address_order;
+    private int flag;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+
+        ClothSelectorDbHelper clothSelectorDbHelper1 = new ClothSelectorDbHelper(getApplicationContext());
+        SQLiteDatabase sqLiteDatabase1 = clothSelectorDbHelper1.getReadableDatabase();
+        Cursor cursor1 = clothSelectorDbHelper1.readContacts(sqLiteDatabase1);
+
+
+        while (cursor1.moveToNext())
+        {
+            int count = cursor1.getInt(cursor1.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_COUNT));
+            if(count !=0){
+                flag = 1;
+            }
+        }
+
+        if (flag != 1){
+           startActivity(new Intent(Order.this,MainActivity.class));
+           finish();
+        }
+
 
         pickUpDate = getIntent().getStringExtra("pickup_date");
         deliveryDate = getIntent().getStringExtra("delivery_date");
@@ -162,6 +183,7 @@ public class Order extends AppCompatActivity {
                         params.put("delivery_date",deliveryDate);
                         params.put("pickup_time",pickUpTime);
                         params.put("delivery_time",deliveryTime);
+                        params.put("address_id",Integer.toString(sharedPreferencesConfig.read_address_id()));
                         return params;
                     }
 

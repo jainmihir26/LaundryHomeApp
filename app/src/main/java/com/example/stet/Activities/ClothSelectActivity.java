@@ -205,4 +205,11 @@ public class ClothSelectActivity extends AppCompatActivity  implements TopFragme
             mNext.setVisibility(View.INVISIBLE);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ClothSelectActivity.this,MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

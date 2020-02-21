@@ -17,6 +17,7 @@ public class SharedPreferencesConfig {
     private SharedPreferences sharedPreferencesEmail;
     private SharedPreferences sharedPreferencesToken;
     private SharedPreferences sharedPreferencesAddress;
+    private SharedPreferences sharedPreferencesAddressId;
 
 
     public  void  clear_PriceObjId(){
@@ -31,6 +32,8 @@ public class SharedPreferencesConfig {
         SharedPreferences.Editor editor5 = sharedPreferencesPhoneNumber.edit();
         SharedPreferences.Editor editor6 = sharedPreferencesToken.edit();
         SharedPreferences.Editor editor7 = sharedPreferencesAddress.edit();
+        SharedPreferences.Editor editor8 = sharedPreferencesAddressId.edit();
+
 
 
 
@@ -42,7 +45,7 @@ public class SharedPreferencesConfig {
         editor5.clear();editor5.commit();
         editor6.clear();editor6.commit();
         editor7.clear();editor7.commit();
-
+        editor8.clear();editor8.commit();
 
     }
 
@@ -56,7 +59,17 @@ public class SharedPreferencesConfig {
         sharedPreferencesEmail = context.getSharedPreferences(context.getResources().getString(R.string.EMAIL),Context.MODE_PRIVATE);
         sharedPreferencesToken = context.getSharedPreferences(context.getResources().getString(R.string.TOKEN),Context.MODE_PRIVATE);
         sharedPreferencesAddress = context.getSharedPreferences(context.getResources().getString(R.string.ADDRESS),Context.MODE_PRIVATE);
+        sharedPreferencesAddressId = context.getSharedPreferences(context.getResources().getString(R.string.ADDRESS_ID),Context.MODE_PRIVATE);
+
     }
+
+    public void write_AddressId(int id){
+        SharedPreferences.Editor sharedPreferencesAddressId_editor = sharedPreferencesAddressId.edit();
+        sharedPreferencesAddressId_editor.putInt(context.getResources().getString(R.string.ADDRESS_ID),id);
+        sharedPreferencesAddressId_editor.commit();
+    }
+
+
 
     public void write_FirstTimeLaunch(boolean isFirstTime){
         SharedPreferences.Editor sharedPreferencesIntroductionSlider_editor = sharedPreferencesIntroductionSlider.edit();
@@ -100,6 +113,9 @@ public class SharedPreferencesConfig {
         sharedPreferencesAddress_editor.commit();
     }
 
+    public int read_address_id(){
+        return sharedPreferencesAddressId.getInt(context.getResources().getString(R.string.ADDRESS_ID),-1);
+    }
 
     public boolean read_FirstTimeLaunch(){
         return sharedPreferencesIntroductionSlider.getBoolean(context.getResources().getString(R.string.IS_FIRST_TIME_LAUNCH),true);

@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);
-        sharedPreferencesConfig.write_PriceObjId(0);
+//        SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);
+//        sharedPreferencesConfig.write_PriceObjId(0);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.PriceObjUrl, new Response.Listener<String>() {
             @Override

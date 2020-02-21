@@ -282,8 +282,7 @@ public class OrderDetails extends AppCompatActivity {
 //                mDelivery10.setBackgroundColor(Color.GRAY);
 //                mDelivery12.setBackgroundColor(Color.GRAY);
 
-                Intent intent = new Intent(OrderDetails.this,MapsActivity.class);
-                intent.putExtra("from_activity","OrderDetails");
+                Intent intent = new Intent(OrderDetails.this,SelectAddressActivity.class);
                 startActivity(intent);
 
             }
@@ -388,5 +387,13 @@ public class OrderDetails extends AppCompatActivity {
         SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);
 
         address_orderDetails.setText(sharedPreferencesConfig.read_address());
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent= new Intent(OrderDetails.this, MainActivity.class);
+        startActivity(intent);
     }
 }

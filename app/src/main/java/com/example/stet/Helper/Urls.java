@@ -14,4 +14,6 @@ public class Urls {
     public static String getOrderUrl=mainUrl+"fetch_order/";
     public static String generateOtpUrl=mainUrl+"generate_otp/";
     public static String changePassword=mainUrl+"change_password/";
+    final public static String FetchAddress=mainUrl+"fetch_addresses/";
+    final public static String RemoveAddress=mainUrl+"remove_address/";
 }

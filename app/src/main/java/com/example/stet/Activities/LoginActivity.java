@@ -163,6 +163,7 @@ public class LoginActivity extends AppCompatActivity {
                 sharedPreferencesConfig.write_token(jsonObject.getString("token"));
                 sharedPreferencesConfig.write_address(jsonObject_address.getString("main_address"));
 
+
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
                 finish();
