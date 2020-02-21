@@ -3,7 +3,6 @@ package com.example.stet.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +19,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
-import com.example.stet.Helper.UserDetailsSharedPreferences;
 import com.example.stet.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -69,6 +67,12 @@ public class LoginActivity extends AppCompatActivity {
                 final String phone_no = phone_number_login.getText().toString().trim();
                 final String password = password_login.getText().toString().trim();
 
+                if(validateEntities(phone_no,password)){
+
+                }else{
+
+                }
+
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.urlLogin, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -95,6 +99,20 @@ public class LoginActivity extends AppCompatActivity {
                 requestQueue.add(stringRequest);
             }
         });
+    }
+
+    private boolean validateEntities(String phone_no, String password) {
+        if(phone_no.isEmpty() || phone_no.length()<10){
+            phone_number_login.setError("Not A Valid Phone Number");
+            phone_number_login.requestFocus();
+            return  false;
+        }
+        if(password.isEmpty() || password.length()<4){
+            password_login.setError("Not A Valid Password.");
+            password_login.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     public void parseData(String response){

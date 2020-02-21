@@ -51,6 +51,7 @@
                 android:inputType="textPersonName"
                 android:textColorHint="@android:color/white"
                 android:textColor="@android:color/white"
+                android:maxLines="1"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -67,6 +68,8 @@
                 android:layout_marginEnd="30dp"
                 android:hint="Last Name"
                 android:padding="15dp"
+                android:maxLines="1"
+                android:inputType="text"
                 android:textColorHint="@android:color/white"
                 android:textColor="@android:color/white"/>
 
@@ -85,6 +88,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:textColorHint="@android:color/white"
+                android:maxLines="1"
                 android:inputType="textEmailAddress"
                 android:textColor="@android:color/white"/>
 
@@ -103,7 +107,9 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:inputType="phone"
+                android:maxLines="1"
                 android:textColorHint="#494949"
+                android:maxLength="10"
                 android:textColor="@android:color/white"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -122,6 +128,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:inputType="textPassword"
+                android:maxLines="1"
                 android:textColorHint="@android:color/white"
                 android:textColor="@android:color/white"
                 />
@@ -142,10 +149,10 @@
                 android:layout_marginEnd="30dp"
                 android:inputType="textPassword"
                 android:textColorHint="@android:color/white"
+                android:maxLines="1"
                 android:textColor="@android:color/white"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
 
         <RelativeLayout

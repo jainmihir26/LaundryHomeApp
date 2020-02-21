@@ -1,14 +1,13 @@
 package com.example.stet.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -19,12 +18,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
-import com.example.stet.Helper.UserDetailsSharedPreferences;
 import com.example.stet.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +36,8 @@ public class RegisterActivity extends AppCompatActivity {
     EditText confirm_password_register;
     TextView sign_in;
     FloatingActionButton button_register;
+
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -55,13 +56,17 @@ public class RegisterActivity extends AppCompatActivity {
         confirm_password_register = findViewById(R.id.confirm_password_register);
         sign_in = findViewById(R.id.sign_in_register);
         button_register = findViewById(R.id.button_register);
+
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
+
+
         });
 
         button_register.setOnClickListener(new View.OnClickListener() {
@@ -75,37 +80,38 @@ public class RegisterActivity extends AppCompatActivity {
                 final String password = password_register.getText().toString().trim();
                 final String confirm_password = confirm_password_register.getText().toString().trim();
 
-
-
+                if (!validateEntities(first_name, last_name, email, phone_number, password, confirm_password)) {
+                    return;
+                } else {
                 SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getApplicationContext());
-                sharedPreferencesConfig.write_full_name(first_name+" "+last_name);
+                sharedPreferencesConfig.write_full_name(first_name + " " + last_name);
                 sharedPreferencesConfig.write_email(email);
                 sharedPreferencesConfig.write_phone_number(phone_number);
 
 
+                if (password.equals(confirm_password)) {
 
-                if(password.equals(confirm_password)){
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.registerUrl, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(RegisterActivity.this,response, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_SHORT).show();
                             parseData(response);
 
                         }
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(RegisterActivity.this,error.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                         }
-                    }){
+                    }) {
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String,String> params = new HashMap<>();
-                            params.put("first_name",first_name);
-                            params.put("last_name",last_name);
-                            params.put("email",email);
-                            params.put("phone_no",phone_number);
-                            params.put("password",password);
+                            Map<String, String> params = new HashMap<>();
+                            params.put("first_name", first_name);
+                            params.put("last_name", last_name);
+                            params.put("email", email);
+                            params.put("phone_no", phone_number);
+                            params.put("password", password);
                             return params;
                         }
                     };
@@ -113,13 +119,49 @@ public class RegisterActivity extends AppCompatActivity {
                     RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                     requestQueue.add(stringRequest);
 
-                }else{
+                } else {
                     Toast.makeText(RegisterActivity.this, "Password and confirm password should be same", Toast.LENGTH_SHORT).show();
-                }
-
+                  }
+              }
             }
         });
     }
+
+    private boolean validateEntities(String first_name,String last_name,String email,String phone_number,String password,String confirm_password ) {
+        if(password.length() <4){
+            password_register.setError("Password length too short.");
+            password_register.requestFocus();
+            return false;
+        }
+        if(!password.equals(confirm_password)){
+            confirm_password_register.setError("Doesn't match with password.");
+            confirm_password_register.requestFocus();
+            return  false;
+        }
+        if(first_name.isEmpty()){
+            first_name_register.setError("Please Enter A Valid First Name");
+            first_name_register.requestFocus();
+            return false;
+        }
+        if(last_name.isEmpty()){
+            last_name_register.setError("Please Enter A Valid Last Name");
+            last_name_register.requestFocus();
+            return false;
+        }
+        if(email.isEmpty()){
+            email_register.setError("Please Enter A Valid Email Id ");
+            email_register.requestFocus();
+            return false;
+        }
+        if(phone_number.isEmpty() || phone_number.length()<10){
+            phone_number_register.setError("Please Enter A Valid Phone Number.");
+            phone_number_register.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
 
     private void checkAlreadyUser() {
         SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(this);

@@ -90,7 +90,7 @@ public class Order extends AppCompatActivity {
         }
         cursor_totalCost.close();
 
-        totalAmountTextView.setText(total_cost+" $");
+        totalAmountTextView.setText(total_cost+" "+getString(R.string.Rs));
 
         final String pay_sum = Integer.toString(total_cost);
 
@@ -225,7 +225,7 @@ public class Order extends AppCompatActivity {
         {
             holder.textViewClothQuantity.setText(dataList.get(position).getClothQuantity());
             holder.textViewServiceType.setText(dataList.get(position).getServiceType());
-            holder.textViewClothCost.setText(Integer.toString(dataList.get(position).getCost())+" $");
+            holder.textViewClothCost.setText(Integer.toString(dataList.get(position).getCost())+" "+getString(R.string.Rs));
             holder.removeItemOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -23,6 +23,8 @@
     <string name="PHONE_NUMBER">PhoneNumber</string>
     <string name="TOKEN">Token</string>
     <string name="ADDRESS">Address</string>
+    <string name="Rs">\u20B9</string>
+    <string name="light_text">Loading</string>
 
 
 </resources>

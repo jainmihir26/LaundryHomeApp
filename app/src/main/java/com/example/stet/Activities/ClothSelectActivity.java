@@ -1,18 +1,17 @@
 package com.example.stet.Activities;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -25,14 +24,12 @@ import com.example.stet.Adapters.SwipeAdapter;
 import com.example.stet.Fragment.BottomFragment;
 import com.example.stet.Fragment.CartFragment;
 import com.example.stet.Fragment.DressFragment;
-import com.example.stet.Fragment.HomeFragment;
 import com.example.stet.Fragment.HouseholdFragment;
 import com.example.stet.Fragment.TopFragment;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
 import com.example.stet.Models.ClothSelectorContract;
 import com.example.stet.Models.ClothSelectorDbHelper;
-import com.example.stet.Models.DataClothCart;
 import com.example.stet.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -65,11 +62,11 @@ public class ClothSelectActivity extends AppCompatActivity  implements TopFragme
         mNext=findViewById(R.id.next_ClothSelectId);
         mAddToCart = findViewById(R.id.addToCart_ClothSelectId);
 
-
-
+        mNext.setVisibility(View.INVISIBLE);
         mNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+
                     Toast.makeText(ClothSelectActivity.this, "next pressed", Toast.LENGTH_SHORT).show();
 
 
@@ -151,11 +148,7 @@ public class ClothSelectActivity extends AppCompatActivity  implements TopFragme
 
         amount_wash_fold.setText("Total:"+total_cost);
         quantity_wash_fold.setText(total_count+" Items");
-
-
-
-
-
+        change_next_visiblilty(total_count);
 
 
         swipeAdapter.AddFragment(new TopFragment(),"Top");
@@ -175,6 +168,8 @@ public class ClothSelectActivity extends AppCompatActivity  implements TopFragme
     public void total_count_change_bottom(int total, int count) {
         amount_wash_fold.setText("Total:"+total);
         quantity_wash_fold.setText(count+" Items");
+        change_next_visiblilty(count);
+
 
     }
 
@@ -182,19 +177,32 @@ public class ClothSelectActivity extends AppCompatActivity  implements TopFragme
     public void total_count_change_dress(int total, int count) {
         amount_wash_fold.setText("Total:"+total);
         quantity_wash_fold.setText(count+" Items");
+        change_next_visiblilty(count);
+
     }
 
     @Override
     public void total_count_change_household(int total, int count) {
         amount_wash_fold.setText("Total:"+total);
         quantity_wash_fold.setText(count+" Items");
+        change_next_visiblilty(count);
+
     }
 
     @Override
     public void total_count_change_top(int total, int count) {
         amount_wash_fold.setText("Total:"+total);
         quantity_wash_fold.setText(count+" Items");
+        change_next_visiblilty(count);
     }
 
+    public void change_next_visiblilty(int total_count){
 
+        if(total_count>0){
+            mNext.setVisibility(View.VISIBLE);
+        }
+        else{
+            mNext.setVisibility(View.INVISIBLE);
+        }
+    }
 }
