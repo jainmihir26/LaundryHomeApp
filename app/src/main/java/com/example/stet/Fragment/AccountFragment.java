@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +28,6 @@ import com.example.stet.Activities.RegisterActivity;
 import com.example.stet.Activities.TermsAndPolicyActivity;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
-import com.example.stet.Helper.UserDetailsSharedPreferences;
 import com.example.stet.R;
 
 import org.json.JSONException;
@@ -78,7 +76,7 @@ public class AccountFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         logoutClicked(thisContext);
                     }
-                }).setNegativeButton("NO",null);
+                }).setNegativeButton("NO",null).setCancelable(false);
 
                 AlertDialog alertDialog=builder.create();
                 alertDialog.show();

@@ -1,7 +1,6 @@
 package com.example.stet.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.R;
@@ -37,6 +39,8 @@ public class OrderDetails extends AppCompatActivity {
     private Button mDelivery4 ;
     private Button mProceed;
     private TextView address_orderDetails;
+
+    private boolean bool_pickUpDate=false,bool_pickUpTime=false,bool_deliveryDate=false,bool_deliveryTime=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +52,15 @@ public class OrderDetails extends AppCompatActivity {
         mProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(bool_deliveryTime==false || bool_pickUpTime==false || bool_deliveryDate==false || bool_pickUpDate==false){
+                    Toast.makeText(OrderDetails.this, "Please selct all the entries.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Log.i(TAG, "setText1: pickup date : "+pickUpDate);
                 Log.i(TAG, "setText1: delivery date : "+deliveryDate);
                 Log.i(TAG, "setText1: pickUp time  : "+pickUpTime);
                 Log.i(TAG, "setText1: delivery time : "+deliveryTime);
-
                 Intent intent = new Intent(OrderDetails.this,Order.class);
                 intent.putExtra("pickup_date",pickUpDate);
                 intent.putExtra("delivery_date",deliveryDate);
@@ -75,6 +83,7 @@ public class OrderDetails extends AppCompatActivity {
                 mPickUpDateToday.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mPickUpDateTomorrow.setBackgroundColor(Color.GRAY);
                 mPickUpDateTheAfterTomorrow.setBackgroundColor(Color.GRAY);
+                bool_pickUpDate=true;
             }
         });
 
@@ -88,6 +97,7 @@ public class OrderDetails extends AppCompatActivity {
                 mPickUpDateTomorrow.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mPickUpDateToday.setBackgroundColor(Color.GRAY);
                 mPickUpDateTheAfterTomorrow.setBackgroundColor(Color.GRAY);
+                bool_pickUpDate=true;
             }
         });
         mPickUpDateTheAfterTomorrow.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +110,7 @@ public class OrderDetails extends AppCompatActivity {
                 mPickUpDateTomorrow.setBackgroundColor(Color.GRAY);
                 mPickUpDateToday.setBackgroundColor(Color.GRAY);
                 mPickUpDateTheAfterTomorrow.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
+                bool_pickUpDate=true;
 
             }
         });
@@ -113,6 +124,7 @@ public class OrderDetails extends AppCompatActivity {
                 mDeliveryDateTomorrow.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mDeliveryDateTheAfter.setBackgroundColor(Color.GRAY);
                 mDeliveryDateTheAfterAfter.setBackgroundColor(Color.GRAY);
+                bool_deliveryDate=true;
 
             }
         });
@@ -127,6 +139,7 @@ public class OrderDetails extends AppCompatActivity {
                 mDeliveryDateTomorrow.setBackgroundColor(Color.GRAY);
                 mDeliveryDateTheAfter.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mDeliveryDateTheAfterAfter.setBackgroundColor(Color.GRAY);
+                bool_deliveryDate=true;
             }
         });
 
@@ -140,6 +153,7 @@ public class OrderDetails extends AppCompatActivity {
                 mDeliveryDateTomorrow.setBackgroundColor(Color.GRAY);
                 mDeliveryDateTheAfter.setBackgroundColor(Color.GRAY);
                 mDeliveryDateTheAfterAfter.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
+                bool_deliveryDate=true;
 
             }
         });
@@ -154,6 +168,7 @@ public class OrderDetails extends AppCompatActivity {
                 mPickupTime10.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mPickupTime12.setBackgroundColor(Color.GRAY);
                 mPickupTime4.setBackgroundColor(Color.GRAY);
+                bool_pickUpTime=true;
             }
         });
 
@@ -168,6 +183,7 @@ public class OrderDetails extends AppCompatActivity {
                 mPickupTime10.setBackgroundColor(Color.GRAY);
                 mPickupTime12.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mPickupTime4.setBackgroundColor(Color.GRAY);
+                bool_pickUpTime=true;
             }
         });
 
@@ -182,6 +198,7 @@ public class OrderDetails extends AppCompatActivity {
                 mPickupTime10.setBackgroundColor(Color.GRAY);
                 mPickupTime12.setBackgroundColor(Color.GRAY);
                 mPickupTime4.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
+                bool_pickUpTime=true;
             }
         });
 
@@ -196,6 +213,7 @@ public class OrderDetails extends AppCompatActivity {
                 mDelivery4.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mDelivery10.setBackgroundColor(Color.GRAY);
                 mDelivery12.setBackgroundColor(Color.GRAY);
+                bool_deliveryTime=true;
 
             }
         });
@@ -211,6 +229,7 @@ public class OrderDetails extends AppCompatActivity {
                 mDelivery4.setBackgroundColor(Color.GRAY);
                 mDelivery10.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
                 mDelivery12.setBackgroundColor(Color.GRAY);
+                bool_deliveryTime=true;
 
             }
         });
@@ -225,6 +244,7 @@ public class OrderDetails extends AppCompatActivity {
                 mDelivery4.setBackgroundColor(Color.GRAY);
                 mDelivery10.setBackgroundColor(Color.GRAY);
                 mDelivery12.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.active_dots));
+                bool_deliveryTime=true;
 
             }
         });
@@ -299,6 +319,7 @@ public class OrderDetails extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void setText1() {
         Calendar now = Calendar.getInstance();
         int currentDate=now.get(Calendar.DAY_OF_MONTH);

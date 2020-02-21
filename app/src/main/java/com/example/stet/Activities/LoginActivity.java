@@ -1,14 +1,15 @@
 package com.example.stet.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -19,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
+import com.example.stet.Models.LoadingDialog;
 import com.example.stet.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -34,29 +36,48 @@ public class LoginActivity extends AppCompatActivity {
     private EditText phone_number_login;
     private EditText password_login;
     private TextView sign_up;
-    private TextView forget_password;
-
-
-
+    private TextView mForgetPassword;
+    private  TextView mForgotPassword ;
+    LoadingDialog loadingDialog ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//        final String urlLogin = "http://192.168.1.208:8000/apis/login/";
+      loadingDialog=new LoadingDialog(LoginActivity.this);
         login_button = findViewById(R.id.sign_in_login);
         phone_number_login = findViewById(R.id.phone_number_login);
         password_login = findViewById(R.id.password_login);
         sign_up = findViewById(R.id.sign_up_login);
-        forget_password = findViewById(R.id.forget_password_login);
+        mForgetPassword = findViewById(R.id.forget_password_login);
+
+
+        mForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadingDialog.startLoadingDialog();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingDialog.dismissDialog();
+                    }
+                },3000);
+
+                Intent intent=new Intent(getApplicationContext(),PhoneNumberActivity.class);
+                startActivity(intent);
+            }
+        });
 
         sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loadingDialog.startLoadingDialog();
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
                 finish();
+                loadingDialog.dismissDialog();
 
             }
         });
@@ -67,36 +88,34 @@ public class LoginActivity extends AppCompatActivity {
                 final String phone_no = phone_number_login.getText().toString().trim();
                 final String password = password_login.getText().toString().trim();
 
+                loadingDialog.startLoadingDialog();
                 if(validateEntities(phone_no,password)){
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.urlLogin, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Toast.makeText(LoginActivity.this,response, Toast.LENGTH_SHORT).show();
+                            parseData(response);
+                            loadingDialog.dismissDialog();
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                            loadingDialog.dismissDialog();
+                        }
+                    }){
 
-                }else{
-
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String,String> params = new HashMap<>();
+                            params.put("phone_no",phone_no);
+                            params.put("password",password);
+                            return params;
+                        }
+                    };
+                    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    requestQueue.add(stringRequest);
                 }
-
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.urlLogin, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(LoginActivity.this,response, Toast.LENGTH_SHORT).show();
-                        parseData(response);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }){
-
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String,String> params = new HashMap<>();
-                        params.put("phone_no",phone_no);
-                        params.put("password",password);
-                        return params;
-                    }
-                };
-
-                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-                requestQueue.add(stringRequest);
             }
         });
     }
@@ -105,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         if(phone_no.isEmpty() || phone_no.length()<10){
             phone_number_login.setError("Not A Valid Phone Number");
             phone_number_login.requestFocus();
+            loadingDialog.dismissDialog();
             return  false;
         }
         if(password.isEmpty() || password.length()<4){
@@ -142,17 +162,6 @@ public class LoginActivity extends AppCompatActivity {
                 sharedPreferencesConfig.write_phone_number(phoneNumber);
                 sharedPreferencesConfig.write_token(jsonObject.getString("token"));
                 sharedPreferencesConfig.write_address(jsonObject_address.getString("main_address"));
-
-
-
-//                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(UserDetailsSharedPreferences.sharedPreferences,MODE_PRIVATE);
-//                SharedPreferences.Editor editor=sharedPreferences.edit();
-//                editor.putString(UserDetailsSharedPreferences.userIdToken,);
-//                editor.putString(UserDetailsSharedPreferences.firstName,firstName);
-//                editor.putString(UserDetailsSharedPreferences.lastName,lastName);
-//                editor.putString(UserDetailsSharedPreferences.userPhoneNumber,phoneNumber);
-//                editor.putString(UserDetailsSharedPreferences.userEmail,email);
-//                editor.apply();
 
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
