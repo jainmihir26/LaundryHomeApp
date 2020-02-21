@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light">
+    tools:context="Fragment.OrderFragment"
+    android:background="@android:color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Orders fragment"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/active_dots"
+        android:id="@+id/tablayout_order_fragment" />
 
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_below="@+id/tablayout_order_fragment"
+        android:id="@+id/current_past_order_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="65dp">
+    </androidx.viewpager.widget.ViewPager>
 
 
 </RelativeLayout>

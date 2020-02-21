@@ -1,6 +1,5 @@
 package com.example.stet.Fragment;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,13 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stet.DataClothSelector;
 import com.example.stet.Models.ClothSelectorContract;
 import com.example.stet.Models.ClothSelectorDbHelper;
 import com.example.stet.Models.DataClothCart;
 import com.example.stet.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -34,11 +29,29 @@ public class CartFragment extends Fragment {
     private RecyclerView cartItemsRecyclerView;
     private ListAdapter mListadapter;
 
+    int flag;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_cart,container,false);
+
+        ClothSelectorDbHelper clothSelectorDbHelper1 = new ClothSelectorDbHelper(getActivity());
+        SQLiteDatabase sqLiteDatabase1 = clothSelectorDbHelper1.getReadableDatabase();
+        Cursor cursor1 = clothSelectorDbHelper1.readContacts(sqLiteDatabase1);
+
+
+        while (cursor1.moveToNext())
+        {
+            int count = cursor1.getInt(cursor1.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_COUNT));
+            if(count !=0){
+                flag = 1;
+            }
+        }
+
+        if (flag != 1){
+            getFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragmentEmpty()).commit();
+        }
 
         placeOrderButton = v.findViewById(R.id.place_order_button);
         addMoreTextView = v.findViewById(R.id.add_more_textView);
