@@ -190,6 +190,8 @@ public class CurrentOrder extends Fragment {
             for(int i=0;i<orders.length();i++){
                 JSONObject order = (JSONObject)orders.get(i);
 
+                Log.d("Current Order", "Parse ");
+
                 String order_id = (String)order.get("order_id");
                 //JSONArray cart_dict = (JSONArray) order.get("cart_dict");
                 Double price = (double)order.get("price");
@@ -204,11 +206,6 @@ public class CurrentOrder extends Fragment {
                 if(!(order_status.equals("failed") || order_status.equals("delivered"))){
                     data.add(new DataCurrentOrder(date+" "+time,order_id,pick_up_date+pick_up_time,order_status,Double.toString(price)));
                 }
-
-
-
-
-
 
             }
 

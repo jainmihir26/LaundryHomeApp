@@ -284,7 +284,9 @@ public class UpiPaymentActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int which) {
-                        startActivity(new Intent(UpiPaymentActivity.this,MainActivity.class));
+                        Intent intent = new Intent(UpiPaymentActivity.this,MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                         finish();
                     }
                 });

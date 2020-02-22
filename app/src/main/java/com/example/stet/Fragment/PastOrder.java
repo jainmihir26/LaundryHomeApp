@@ -60,7 +60,7 @@ public class PastOrder extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.getOrderUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getActivity(),response, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(),response, Toast.LENGTH_SHORT).show();
                 parseData(response);
             }
         }, new Response.ErrorListener() {

@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.urlLogin, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(LoginActivity.this,response, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(LoginActivity.this,response, Toast.LENGTH_SHORT).show();
                             parseData(response);
                             loadingDialog.dismissDialog();
                         }

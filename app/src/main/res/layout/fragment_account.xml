@@ -89,7 +89,7 @@
         <TextView
             android:id="@+id/accountF_userAddressId"
             android:layout_width="300dp"
-            android:layout_height="55dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="5dp"

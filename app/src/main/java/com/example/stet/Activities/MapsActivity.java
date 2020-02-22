@@ -146,12 +146,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mArea = findViewById(R.id.map_areaOrDistrictId);
         mSaveButton = findViewById(R.id.map_saveButton);
 
-        mMainAdrees.setCursorVisible(false);
-        mMainAdrees.setLongClickable(false);
-        mMainAdrees.setClickable(false);
-        mMainAdrees.setFocusable(false);
-        mMainAdrees.setSelected(false);
-        mMainAdrees.setKeyListener(null);
+//        mMainAdrees.setCursorVisible(false);
+//        mMainAdrees.setLongClickable(false);
+//        mMainAdrees.setClickable(false);
+//        mMainAdrees.setFocusable(false);
+//        mMainAdrees.setSelected(false);
+//        mMainAdrees.setKeyListener(null);
 
 
         autoCompleteTextView=findViewById(R.id.autocomplete);

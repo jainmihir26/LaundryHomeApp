@@ -96,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.registerUrl, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_SHORT).show();
                             parseData(response);
 
                         }

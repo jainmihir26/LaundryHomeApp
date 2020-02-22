@@ -1,7 +1,8 @@
 package com.example.stet.Helper;
 
 public class Urls {
-    final  public static String mainUrl="http://192.168.0.104:8000/apis/";
+    //final  public static String mainUrl="http://192.168.0.107:8001/apis/";
+    final  public static String mainUrl="https://mylastdemo.herokuapp.com/apis/";
     final public static String urlLogin = mainUrl+"login/";
     final public static String mapsUrl=mainUrl+"add_address/";
     final public static String verifyOtpUrl=mainUrl+"verify_otp/";

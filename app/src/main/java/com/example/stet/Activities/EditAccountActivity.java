@@ -42,6 +42,12 @@ public class EditAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_account);
         init();
 
+        SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getApplicationContext());
+
+        mFirstName.setText(sharedPreferencesConfig.read_full_name().split(" ")[0]);
+        mLastName.setText(sharedPreferencesConfig.read_full_name().split(" ")[1]);
+        mEmail.setText(sharedPreferencesConfig.read_email());
+
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
