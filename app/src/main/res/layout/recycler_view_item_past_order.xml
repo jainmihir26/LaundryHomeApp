@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="20dp"
-    app:cardCornerRadius="20dp"
-    app:cardBackgroundColor="@color/quantum_grey50">
+    app:cardBackgroundColor="@color/quantum_grey50"
+    android:padding="10dp">
 
 
     <LinearLayout
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/order_status_past_order"
-            android:layout_width="wrap_content"
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Order Status"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="25sp"/>
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/order_status_past_order"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Order Status"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="25sp"/>
+
+            <TextView
+                android:gravity="end"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="View Details"
+                android:textColor="@color/active_dots"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
+
 
         <TextView
             android:layout_marginTop="5dp"
@@ -39,9 +59,13 @@
             android:layout_height="wrap_content"
             android:text="Order Id:#2134b"
             android:textSize="18sp" />
+        <View android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/blue_navy"
+            />
 
     </LinearLayout>
 
 
 
-</androidx.cardview.widget.CardView>
+</LinearLayout>

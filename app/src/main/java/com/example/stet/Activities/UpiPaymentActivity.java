@@ -17,10 +17,20 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.stet.Helper.SharedPreferencesConfig;
+import com.example.stet.Helper.Urls;
 import com.example.stet.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UpiPaymentActivity extends AppCompatActivity {
 
@@ -145,15 +155,102 @@ public class UpiPaymentActivity extends AppCompatActivity {
             }
 
             if (status.equals("success")) {
-                //Code to handle successful transaction here.
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.PaymentConf, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(UpiPaymentActivity.this,response, Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<>();
+                        SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getApplicationContext());
+                        params.put("token",sharedPreferencesConfig.read_token());
+                        params.put("status","successful");
+                        params.put("order_id",getIntent().getStringExtra("order_id"));
+                        return params;
+                    }
+                };
+
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
+                requestQueue.add(stringRequest);
+
                 Toast.makeText(UpiPaymentActivity.this, "Transaction successful.", Toast.LENGTH_SHORT).show();
                 Log.d("UPI", "responseStr: "+approvalRefNo);
+
+                Intent intent = new Intent(UpiPaymentActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
             }
             else if("Payment cancelled by user.".equals(paymentCancel)) {
                 Toast.makeText(UpiPaymentActivity.this, "Payment cancelled by user.", Toast.LENGTH_SHORT).show();
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.PaymentConf, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(UpiPaymentActivity.this,response, Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<>();
+                        SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getApplicationContext());
+                        params.put("token",sharedPreferencesConfig.read_token());
+                        params.put("status","unsuccessful");
+                        params.put("order_id",getIntent().getStringExtra("order_id"));
+                        return params;
+                    }
+                };
+
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
+                requestQueue.add(stringRequest);
+
+
+                Intent intent = new Intent(UpiPaymentActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+
             }
             else {
                 Toast.makeText(UpiPaymentActivity.this, "Transaction failed.Please try again", Toast.LENGTH_SHORT).show();
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.PaymentConf, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(UpiPaymentActivity.this,response, Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<>();
+                        SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getApplicationContext());
+                        params.put("token",sharedPreferencesConfig.read_token());
+                        params.put("status","unsuccessful");
+                        params.put("order_id",getIntent().getStringExtra("order_id"));
+                        return params;
+                    }
+                };
+
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
+                requestQueue.add(stringRequest);
+
+
+                Intent intent = new Intent(UpiPaymentActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         } else {
             Toast.makeText(UpiPaymentActivity.this, "Internet connection is not available. Please check and try again", Toast.LENGTH_SHORT).show();
@@ -200,4 +297,5 @@ public class UpiPaymentActivity extends AppCompatActivity {
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
     }
+
 }

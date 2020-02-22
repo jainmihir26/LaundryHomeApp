@@ -1,19 +1,20 @@
 package com.example.stet.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,15 +23,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.stet.Fragment.CartFragment;
-import com.example.stet.Fragment.CartFragmentEmpty;
-import com.example.stet.Fragment.HomeFragment;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
 import com.example.stet.Models.ClothSelectorContract;
 import com.example.stet.Models.ClothSelectorDbHelper;
 import com.example.stet.Models.DataClothCart;
 import com.example.stet.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -168,6 +169,7 @@ public class Order extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(Order.this,response, Toast.LENGTH_SHORT).show();
+                        parseData(response);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -268,6 +270,29 @@ public class Order extends AppCompatActivity {
         {
             return dataList.size();
         }
+    }
+
+    public void parseData(String response)
+    {
+        JSONObject jsonObject = null;
+
+        try {
+            jsonObject = new JSONObject(response);
+            if(jsonObject.getString("error").equals("false")){
+
+
+                String order_id = jsonObject.getString("order_id");
+                Intent intent = new Intent(Order.this,UpiPaymentActivity.class);
+                intent.putExtra("order_id",order_id);
+                Log.d("order idddd",order_id);
+                startActivity(intent);
+                finish();
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 }
 

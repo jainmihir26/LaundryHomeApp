@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.EnterOtp">
+    <EditText android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/otp_enterId"
+        android:maxLength="6"
+        android:maxLines="1"
+        android:inputType="numberDecimal"
+        android:hint="6-digit OTP"
+        />
+
+    <EditText
+        android:layout_below="@+id/otp_enterId"
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/password_enterId"
+        android:maxLength="6"
+        android:maxLines="1"
+        android:inputType="numberDecimal"
+        android:hint="Enter password"
+        />
+
+    <Button android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:id="@+id/verify_enterId"
+        android:layout_below="@+id/password_enterId"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/button_shape"
+        android:textColor="@color/blue_navy"
+        android:text="Verify"
+        />
+
+
+
+</RelativeLayout>

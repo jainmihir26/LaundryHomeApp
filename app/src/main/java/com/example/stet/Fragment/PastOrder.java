@@ -23,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
+import com.example.stet.Models.DataCurrentOrder;
 import com.example.stet.Models.DataPastOrder;
 import com.example.stet.R;
 
@@ -111,7 +112,7 @@ public class PastOrder extends Fragment {
         }
 
         @Override
-        public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item_past_order, parent, false);
 
@@ -120,10 +121,10 @@ public class PastOrder extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(final ListAdapter.ViewHolder holder, final int position)
+        public void onBindViewHolder(final ViewHolder holder, final int position)
         {
-            holder.textViewOrderConfirmStatus.setText(dataList.get(position).getOrder_status());
-            holder.textViewDateTimeOrder.setText(dataList.get(position).getOrder_place_date_time());
+            holder.textViewOrderConfirmStatus.setText(dataList.get(position).getOrder_status().substring(0,1).toUpperCase()+dataList.get(position).getOrder_status().substring(1)+"!");
+            holder.textViewDateTimeOrder.setText(dataList.get(position).getOrder_time());
             holder.textViewOrderId.setText("Order Id:"+dataList.get(position).getOrder_id());
 
         }
@@ -154,7 +155,15 @@ public class PastOrder extends Fragment {
                 String order_status = (String)order.get("order_status");
                 String delivery_date = (String)order.get("delivery_date");
                 String delivery_time = (String)order.get("delivery_time");
-                data.add(new DataPastOrder(order_id,delivery_date+delivery_time,order_status,Double.toString(price)));
+                String order_time = (String)order.get("order_time");
+                String date = order_time.split("T",2)[0];
+                String time = order_time.split("T",2)[1];
+                time = time.substring(0,8);
+
+                if((order_status.equals("failed") || order_status.equals("delivered"))){
+                    data.add(new DataPastOrder(date+","+time,order_id,delivery_date+delivery_time,order_status,Double.toString(price)));
+                }
+
 
             }
 

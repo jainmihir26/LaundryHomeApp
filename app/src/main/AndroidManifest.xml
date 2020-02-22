@@ -16,17 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.ForgotPasswordActivity"></activity>
+        <activity android:name=".Activities.EnterOtp"></activity>
+        <activity android:name=".Activities.ChangePhoneNumberActivity" />
+        <activity android:name=".Activities.EditAccountActivity" />
+        <activity android:name=".Activities.ForgotPasswordActivity" />
         <activity android:name=".Activities.PhoneNumberActivity" />
         <activity android:name=".Activities.SampleActivity" />
-        <activity android:name=".Activities.SelectAddressActivity"></activity>
-<!--        <activity android:name=".Activities.SampleActivity"></activity>-->
+        <activity android:name=".Activities.SelectAddressActivity" /> <!-- <activity android:name=".Activities.SampleActivity"></activity> -->
         <activity android:name=".Activities.NoInternetActivity" />
         <activity android:name=".Activities.TermsAndPolicyActivity" />
         <activity android:name=".Activities.Order" />
-        <activity android:name=".Activities.OrderDetails" >
-
-        </activity>
+        <activity android:name=".Activities.OrderDetails" />
         <activity android:name=".Activities.WelcomeActivity" />
         <activity android:name=".Activities.UpiPaymentActivity" />
         <activity android:name=".Activities.VerifyOtpActivity" />

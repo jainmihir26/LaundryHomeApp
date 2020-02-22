@@ -1,5 +1,6 @@
 package com.example.stet.Fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,10 +22,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
 import com.example.stet.Models.DataPromotion;
+import com.example.stet.Models.LoadingDialog;
 import com.example.stet.R;
 
 import org.json.JSONArray;
@@ -41,6 +42,7 @@ public class OfferFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ArrayList<DataPromotion> data = new ArrayList<>();
     private ListAdapter mListadapter;
+    private LoadingDialog loadingDialog ;
 
     @Nullable
     @Override
@@ -48,22 +50,27 @@ public class OfferFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_offer,container,false);
 
         mRecyclerView = v.findViewById(R.id.recycler_view_promotions);
+        assert container != null;
+        loadingDialog=new LoadingDialog((Activity) container.getContext());
 
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
+        loadingDialog.startLoadingDialog();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.promotionUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 parseData(response);
+                loadingDialog.dismissDialog();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("promotion", "onErrorResponse: ",error );
+                loadingDialog.dismissDialog();
             }
         }){
             @Override
@@ -79,8 +86,6 @@ public class OfferFragment extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
-
-
 
         return v;
     }

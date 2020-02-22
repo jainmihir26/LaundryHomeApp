@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView sign_up;
     private TextView mForgetPassword;
     private  TextView mForgotPassword ;
-    LoadingDialog loadingDialog ;
+    private LoadingDialog loadingDialog ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

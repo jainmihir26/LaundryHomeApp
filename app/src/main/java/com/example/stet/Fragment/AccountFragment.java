@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.stet.Activities.EditAccountActivity;
 import com.example.stet.Activities.RegisterActivity;
 import com.example.stet.Activities.TermsAndPolicyActivity;
 import com.example.stet.Helper.SharedPreferencesConfig;
@@ -45,6 +46,7 @@ public class AccountFragment extends Fragment {
     private TextView mAddress ;
     private TextView mPhoneNumber;
     private TextView mTerms ;
+    private TextView mEditAccount;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -87,6 +89,13 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(thisContext, TermsAndPolicyActivity.class));
+            }
+        });
+
+        mEditAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(thisContext, EditAccountActivity.class));
             }
         });
 
@@ -145,5 +154,6 @@ public class AccountFragment extends Fragment {
         mLogout=view.findViewById(R.id.accountF_logoutId);
         mPhoneNumber=view.findViewById(R.id.accountF_userPhoneNumberId);
         mTerms=view.findViewById(R.id.accountF_termsId);
+        mEditAccount=view.findViewById(R.id.editAccount);
     }
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,7 +60,6 @@ public class CurrentOrder extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.getOrderUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getActivity(),response, Toast.LENGTH_SHORT).show();
                 parseData(response);
             }
         }, new Response.ErrorListener() {
@@ -102,6 +102,12 @@ public class CurrentOrder extends Fragment {
             TextView textViewOrderId;
             TextView textViewOrderCost;
             Button button_getHelp,cancel_order;
+            ImageView order_placed;
+            ImageView order_pick_up;
+            ImageView order_processing;
+            ImageView out_for_delivery;
+
+
 
             public ViewHolder(View itemView)
             {
@@ -112,12 +118,16 @@ public class CurrentOrder extends Fragment {
                 this.textViewOrderCost = (TextView) itemView.findViewById(R.id.total_amount_order_textView);
                 this.button_getHelp = (Button) itemView.findViewById(R.id.get_help_order);
                 this.cancel_order = (Button) itemView.findViewById(R.id.cancel_order_button);
+                this.order_placed = (ImageView) itemView.findViewById(R.id.order_placed);
+                this.order_pick_up = (ImageView) itemView.findViewById(R.id.order_pick_up);
+                this.order_processing = (ImageView) itemView.findViewById(R.id.order_processing);
+                this.out_for_delivery = (ImageView) itemView.findViewById(R.id.out_for_delivery);
 
             }
         }
 
         @Override
-        public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_current_order_item, parent, false);
 
@@ -126,12 +136,13 @@ public class CurrentOrder extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(final ListAdapter.ViewHolder holder, final int position)
+        public void onBindViewHolder(final ViewHolder holder, final int position)
         {
             //holder.textViewOrderConfirmStatus.setText(dataList.get(position).getOrder_confirm_status());
-            holder.textViewDateTimeOrder.setText(dataList.get(position).getOrder_place_date_time());
+            holder.textViewDateTimeOrder.setText(dataList.get(position).getOrder_time());
             holder.textViewOrderId.setText("Order Id:"+dataList.get(position).getOrder_id());
             holder.textViewOrderCost.setText(dataList.get(position).getOrder_amount()+"$");
+
 
             holder.button_getHelp.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -147,7 +158,15 @@ public class CurrentOrder extends Fragment {
                 }
             });
 
+            if(dataList.get(position).getOrder_status().equals("pickup_pending")){
+                holder.order_placed.setImageResource(R.drawable.green_dots);
+            }
 
+            if(dataList.get(position).getOrder_status().equals("delivery_pending")){
+                holder.order_placed.setImageResource(R.drawable.green_dots);
+                holder.order_pick_up.setImageResource(R.drawable.green_dots);
+                holder.order_processing.setImageResource(R.drawable.green_dots);
+            }
 
         }
 
@@ -177,7 +196,18 @@ public class CurrentOrder extends Fragment {
                 String order_status = (String)order.get("order_status");
                 String pick_up_date = (String)order.get("pickup_date");
                 String pick_up_time = (String)order.get("pickup_time");
-                data.add(new DataCurrentOrder(order_id,pick_up_date+pick_up_time,order_status,Double.toString(price)));
+                String order_time = (String)order.get("order_time");
+
+                String date = order_time.split("T",2)[0];
+                String time = order_time.split("T",2)[1];
+                time = time.substring(0,8);
+                if(!(order_status.equals("failed") || order_status.equals("delivered"))){
+                    data.add(new DataCurrentOrder(date+" "+time,order_id,pick_up_date+pick_up_time,order_status,Double.toString(price)));
+                }
+
+
+
+
 
 
             }
