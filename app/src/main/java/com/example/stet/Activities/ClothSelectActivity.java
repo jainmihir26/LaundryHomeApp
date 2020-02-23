@@ -41,13 +41,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ClothSelectActivity extends AppCompatActivity  implements TopFragment.TotalChangeTop, BottomFragment.TotalChangeBottom, HouseholdFragment.TotalChangeHousehold, DressFragment.TotalChangeDress {
-
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private SwipeAdapter swipeAdapter;
     TextView quantity_wash_fold,amount_wash_fold;
     private Button mNext,mAddToCart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

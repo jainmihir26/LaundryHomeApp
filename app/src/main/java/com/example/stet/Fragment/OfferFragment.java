@@ -152,7 +152,7 @@ public class OfferFragment extends Fragment {
 
 
 
-    void parseData(String response){
+    private void parseData(String response){
 
         JSONObject jsonObject = null;
         try {

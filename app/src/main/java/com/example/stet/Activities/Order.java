@@ -43,6 +43,8 @@ public class Order extends AppCompatActivity {
     private TextView totalAmountTextView;
     private RecyclerView cartItemsRecyclerView;
     private ListAdapter mListadapter;
+    private TextView mHaveAPromoCode ;
+
     private Button placeOrder;
     String pickUpDate;
     String deliveryDate;
@@ -99,6 +101,14 @@ public class Order extends AppCompatActivity {
         totalAmountTextView = findViewById(R.id.total_amount_textView);
         cartItemsRecyclerView = findViewById(R.id.recycler_view_order);
         placeOrder = findViewById(R.id.place_order_button_order);
+        mHaveAPromoCode=findViewById(R.id.have_a_promocode);
+        mHaveAPromoCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Order.this,ApplyPromotionActivity.class));
+            }
+        });
+
 
         ClothSelectorDbHelper clothSelectorDbHelper_totalCost = new ClothSelectorDbHelper(getApplicationContext());
         SQLiteDatabase sqLiteDatabase_totalCost = clothSelectorDbHelper_totalCost.getReadableDatabase();

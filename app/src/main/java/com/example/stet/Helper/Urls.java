@@ -2,7 +2,7 @@ package com.example.stet.Helper;
 
 public class Urls {
     //final  public static String mainUrl="http://192.168.0.107:8001/apis/";
-    final  public static String mainUrl="https://mylastdemo.herokuapp.com/apis/";
+    private final static String mainUrl="http://192.168.0.102:8000/apis/";
     final public static String urlLogin = mainUrl+"login/";
     final public static String mapsUrl=mainUrl+"add_address/";
     final public static String verifyOtpUrl=mainUrl+"verify_otp/";
@@ -22,4 +22,5 @@ public class Urls {
     public static String PaymentConf=mainUrl+"payment_status_by_api/";
     public static String otpForUpdatePhone=mainUrl+"otp_for_update_phone/";
     public static String updatePhoneNo=mainUrl+"update_phone_no/";
+
 }

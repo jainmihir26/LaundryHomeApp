@@ -12,15 +12,15 @@ public class DataPromotion {
         this.title = title;
         this.date_expire = date_expire;
         this.code = code;
+
     }
 
     public int getId(){
         return id;
     }
 
-    public String getTitle(){
-        return title;
-    }
+    public String getTitle()
+    { return title; }
 
     public  String getDate(){
         return date_expire;
