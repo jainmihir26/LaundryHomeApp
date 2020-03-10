@@ -34,5 +34,7 @@ public class OrderFragment extends Fragment {
         viewPager.setAdapter(swipeAdapterOrder);
         tabLayout.setupWithViewPager(viewPager);
         return v;
+
+
     }
 }
