@@ -15,40 +15,90 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.ApplyPromotionActivity"></activity>
-        <activity android:name=".Activities.EnterOtp" />
-        <activity android:name=".Activities.ChangePhoneNumberActivity" />
-        <activity android:name=".Activities.EditAccountActivity" />
-        <activity android:name=".Activities.ForgotPasswordActivity" />
-        <activity android:name=".Activities.PhoneNumberActivity" />
-        <activity android:name=".Activities.SampleActivity" />
-        <activity android:name=".Activities.SelectAddressActivity" /> <!-- <activity android:name=".Activities.SampleActivity"></activity> -->
-        <activity android:name=".Activities.NoInternetActivity" />
-        <activity android:name=".Activities.TermsAndPolicyActivity" />
-        <activity android:name=".Activities.Order" />
-        <activity android:name=".Activities.OrderDetails" />
-        <activity android:name=".Activities.WelcomeActivity" />
-        <activity android:name=".Activities.UpiPaymentActivity" />
-        <activity android:name=".Activities.VerifyOtpActivity" />
-        <activity android:name=".Activities.MapsActivity" />
-        <activity android:name=".Activities.ClothSelectActivity" />
-        <activity android:name=".Activities.LandingActivity" />
-        <activity android:name=".Activities.RegisterActivity">
+        android:usesCleartextTraffic="true"
+        android:screenOrientation="portrait"
+        >
+        <activity android:name=".Activities.RazorPayEarlier">
+
+        </activity>
+        <activity android:name=".Activities.ApplyPromotionActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.EnterOtp"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.ChangePhoneNumberActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.EditAccountActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.PhoneNumberActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.SampleActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.SelectAddressActivity"
+            android:screenOrientation="portrait"
+            /> <!-- <activity android:name=".Activities.SampleActivity"></activity> -->
+        <activity android:name=".Activities.NoInternetActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.TermsAndPolicyActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.Order"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.OrderDetails"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.WelcomeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.UpiPaymentActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.VerifyOtpActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.MapsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.ClothSelectActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.LandingActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.RegisterActivity"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.MainActivity" /> <!-- android:screenOrientation="portrait"/> -->
+        <activity android:name=".Activities.LoginActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.MainActivity"
+            android:screenOrientation="portrait"
+            /> <!-- android:screenOrientation="portrait"/> -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_API_key" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_7BDdTfDDnOS4kT"/>
+
     </application>
 
 </manifest>

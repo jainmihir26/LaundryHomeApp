@@ -1,5 +1,6 @@
 package com.example.stet.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -29,6 +30,9 @@ import com.example.stet.Models.ClothSelectorContract;
 import com.example.stet.Models.ClothSelectorDbHelper;
 import com.example.stet.Models.DataClothCart;
 import com.example.stet.R;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
+import com.razorpay.RazorpayClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,14 +40,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-public class Order extends AppCompatActivity {
+public class Order extends AppCompatActivity implements PaymentResultListener {
+    private static final String TAG = "Order";
 
     private TextView addMoreTextView;
     private TextView totalAmountTextView;
     private RecyclerView cartItemsRecyclerView;
     private ListAdapter mListadapter;
     private TextView mHaveAPromoCode ;
+    private TextView mDiscountPrice ;
+    private TextView mPayableTextView;
 
     private Button placeOrder;
     String pickUpDate;
@@ -61,11 +69,13 @@ public class Order extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
+        Checkout.preload(getApplicationContext());
+
         ClothSelectorDbHelper clothSelectorDbHelper1 = new ClothSelectorDbHelper(getApplicationContext());
         SQLiteDatabase sqLiteDatabase1 = clothSelectorDbHelper1.getReadableDatabase();
         Cursor cursor1 = clothSelectorDbHelper1.readContacts(sqLiteDatabase1);
 
-
+        double total_cost = 0;
         while (cursor1.moveToNext())
         {
             int count = cursor1.getInt(cursor1.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_COUNT));
@@ -88,6 +98,12 @@ public class Order extends AppCompatActivity {
         pick_up_order_details = findViewById(R.id.pickup_order_details);
         delivery_order_details = findViewById(R.id.delivery_order_details);
         address_order = findViewById(R.id.address_order);
+        mDiscountPrice=findViewById(R.id.discount_textView);
+        mPayableTextView=findViewById(R.id.payable_textView);
+
+
+
+//        mPayableTextView.setText(getIntent().getStringExtra("amount_after_discount"));
 
         pick_up_order_details.setText(pickUpDate+" "+pickUpTime);
         delivery_order_details.setText(deliveryDate+" "+deliveryTime);
@@ -102,18 +118,13 @@ public class Order extends AppCompatActivity {
         cartItemsRecyclerView = findViewById(R.id.recycler_view_order);
         placeOrder = findViewById(R.id.place_order_button_order);
         mHaveAPromoCode=findViewById(R.id.have_a_promocode);
-        mHaveAPromoCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Order.this,ApplyPromotionActivity.class));
-            }
-        });
+
 
 
         ClothSelectorDbHelper clothSelectorDbHelper_totalCost = new ClothSelectorDbHelper(getApplicationContext());
         SQLiteDatabase sqLiteDatabase_totalCost = clothSelectorDbHelper_totalCost.getReadableDatabase();
         Cursor cursor_totalCost = clothSelectorDbHelper_totalCost.readContacts(sqLiteDatabase_totalCost);
-        int total_cost = 0;
+
         while (cursor_totalCost.moveToNext())
         {
             int cloth_price = cursor_totalCost.getInt(cursor_totalCost.getColumnIndexOrThrow(ClothSelectorContract.ClothEntry.CLOTH_PRICE));
@@ -124,7 +135,7 @@ public class Order extends AppCompatActivity {
 
         totalAmountTextView.setText(total_cost+" "+getString(R.string.Rs));
 
-        final String pay_sum = Integer.toString(total_cost);
+        final String pay_sum = Double.toString(total_cost);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -167,53 +178,170 @@ public class Order extends AppCompatActivity {
 
 
 
-        placeOrder.setOnClickListener(new View.OnClickListener() {
+
+        final double finalTotal_cost1 = total_cost;
+        mHaveAPromoCode.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                getApplicationContext().deleteDatabase("cloth_selection_db");
-                SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getApplicationContext());
-                sharedPreferencesConfig.clear_PriceObjId();
-
-
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.PickDropUrl, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(Order.this,response, Toast.LENGTH_SHORT).show();
-                        parseData(response);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String,String> params = new HashMap<>();
-                        SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getApplicationContext());
-                        params.put("token",sharedPreferencesConfig.read_token());
-                        params.put("pickup_date",pickUpDate);
-                        params.put("delivery_date",deliveryDate);
-                        params.put("pickup_time",pickUpTime);
-                        params.put("delivery_time",deliveryTime);
-                        params.put("address_id",Integer.toString(sharedPreferencesConfig.read_address_id()));
-                        return params;
-                    }
-
-                };
-
-                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-                requestQueue.add(stringRequest);
-
-
-
-
-                Toast.makeText(Order.this, "amount is "+pay_sum, Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(Order.this,UpiPaymentActivity.class);
-                intent.putExtra("amount",pay_sum);
+            public void onClick(View v) {
+                Intent intent=new Intent(Order.this,ApplyPromotionActivity.class);
+                Log.d(TAG, "onClick: "+" Amount to be paid : "+ finalTotal_cost1);
+                intent.putExtra("amount_to_be_paid",String.valueOf(finalTotal_cost1));
                 startActivity(intent);
             }
         });
 
+
+        String percentageDiscount=getIntent().getStringExtra("discount_percentage");
+        Log.d(TAG, "onCreate: "+" percentage discount "+percentageDiscount);
+        Log.d(TAG, "onCreate: "+" total cost "+total_cost);
+        double discountPrice=0;
+
+        double maxDiscount ;
+        if(getIntent().getStringExtra("max_discount")!=null) {
+             maxDiscount= Double.parseDouble(Objects.requireNonNull(getIntent().getStringExtra("max_discount")));
+        }else{
+            maxDiscount=0;
+        }
+
+        if(percentageDiscount!=null) {
+            discountPrice =(total_cost)*(Double.parseDouble(percentageDiscount))/100;
+
+            if(discountPrice > maxDiscount){
+                discountPrice=maxDiscount ;
+            }
+
+        } else{
+            discountPrice = 0 /100;
+        }
+
+        mDiscountPrice.setText(String.valueOf((-1)*discountPrice)+" "+getString(R.string.Rs));
+
+
+        final double payableAmount=total_cost - discountPrice;
+        mPayableTextView.setText(String.valueOf(payableAmount)+" "+getString(R.string.Rs));
+
+
+        placeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startPayment(payableAmount * 100);
+            }
+        });
+
+
+    }
+
+    public void startPayment(double amount_in_paisa) {
+        Checkout checkout = new Checkout();
+        checkout.setKeyID("rzp_live_7BDdTfDDnOS4kT");
+        /**
+         * Instantiate Checkout
+         */
+
+        /**
+         * Set your logo here
+         */
+//        checkout.setImage(R.drawable.logo);
+
+        /**
+         * Reference to current activity
+         */
+        final Activity activity = this;
+
+        /**
+         * Pass your payment options to the Razorpay Checkout as a JSONObject
+         */
+        try {
+            JSONObject options = new JSONObject();
+
+
+            RazorpayClient razorpay = new RazorpayClient("rzp_live_7BDdTfDDnOS4kT", "3HH9sh70Z4gfYg7qosDRjrIv");
+
+            /**
+             * Merchant Name
+             * eg: ACME Corp || HasGeek etc.
+             */
+            SharedPreferencesConfig sharedPreferencesConfig =new SharedPreferencesConfig(getApplicationContext());
+            String full_name1=sharedPreferencesConfig.read_full_name();
+            String email1=sharedPreferencesConfig.read_email();
+            String phone_no1=sharedPreferencesConfig.read_phone_number();
+            String amount_to_be_paid=Double.toString(amount_in_paisa);
+
+            options.put("name", full_name1);
+
+            /**
+             * Description can be anything
+             * eg: Reference No. #123123 - This order number is passed by you for your internal reference. This is not the `razorpay_order_id`.
+             *     Invoice Payment
+             *     etc.
+             */
+            options.put("description", " Complete Your Payment ");
+            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+
+            options.put("currency", "INR");
+
+
+
+
+            /**
+             * Amount is always passed in currency subunits
+             * Eg: "500" = INR 5.00
+             */
+            options.put("amount", amount_to_be_paid);
+
+            JSONObject preFill = new JSONObject();
+            preFill.put("email", email1);
+            preFill.put("contact", phone_no1);
+
+            options.put("prefill", preFill);
+
+
+            checkout.open(activity, options);
+        } catch(Exception e) {
+            Log.e(TAG, "Error in starting Razorpay Checkout", e);
+        }
+    }
+
+
+    @Override
+    public void onPaymentSuccess(String s) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.PickDropUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(Order.this,response, Toast.LENGTH_SHORT).show();
+                parseData(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                SharedPreferencesConfig sharedPreferencesConfig = new SharedPreferencesConfig(getApplicationContext());
+                params.put("token",sharedPreferencesConfig.read_token());
+                params.put("pickup_date",pickUpDate);
+                params.put("delivery_date",deliveryDate);
+                params.put("pickup_time",pickUpTime);
+                params.put("delivery_time",deliveryTime);
+                params.put("address_id",Integer.toString(sharedPreferencesConfig.read_address_id()));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+
+
+
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+        Toast.makeText(this, "Payment Error.", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -241,7 +369,6 @@ public class Order extends AppCompatActivity {
                 this.textViewServiceType = (TextView) itemView.findViewById(R.id.service_type_cart);
                 this.textViewClothCost = (TextView) itemView.findViewById(R.id.cost_per_item_textView);
                 this.removeItemOrder = (Button) itemView.findViewById(R.id.delete_item_cart);
-
             }
         }
 

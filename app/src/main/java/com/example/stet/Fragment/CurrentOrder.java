@@ -1,6 +1,5 @@
 package com.example.stet.Fragment;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -11,16 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -32,7 +29,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.stet.Activities.MainActivity;
 import com.example.stet.Adapters.PopUpAdapter;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
@@ -42,8 +38,6 @@ import com.example.stet.Models.DataCurrentOrder;
 import com.example.stet.Models.DataModel;
 import com.example.stet.Models.LoadingDialog;
 import com.example.stet.R;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,6 +57,7 @@ public class CurrentOrder extends Fragment {
     private ArrayList<DataCurrentOrder> data = new ArrayList<>();
     private LoadingDialog loadingDialog;
     private ViewPager layout_MainMenu;
+    private RelativeLayout  back_dim_layout;
 
 
 
@@ -79,6 +74,8 @@ public class CurrentOrder extends Fragment {
         loadingDialog = new LoadingDialog(getActivity());
 
         layout_MainMenu = view.findViewById(R.id.tablayout_order_fragment);
+
+        back_dim_layout = (RelativeLayout) view.findViewById(R.id.bac_dim_layout);
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Urls.getOrderUrl, new Response.Listener<String>() {
@@ -208,7 +205,7 @@ public class CurrentOrder extends Fragment {
 
                     final View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.demo, null);
                     final PopupWindow popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-
+                    back_dim_layout.setVisibility(View.VISIBLE);
                     //layout_MainMenu.setAlpha(1);
                     popupWindow.getAnimationStyle();
 
@@ -274,6 +271,8 @@ public class CurrentOrder extends Fragment {
                         @Override
                         public void onClick(View view) {
                             popupWindow.dismiss();
+                            back_dim_layout.setVisibility(View.GONE);
+
                         }
                     });
 

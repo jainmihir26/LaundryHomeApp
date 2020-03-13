@@ -24,8 +24,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.stet.Activities.ClothSelectActivity;
-import com.example.stet.Activities.MainActivity;
 import com.example.stet.Activities.OrderDetails;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
@@ -153,7 +151,7 @@ public class CartFragment extends Fragment {
         }
         cursor_totalCost.close();
 
-        totalAmountTextView.setText(total_cost+" $");
+        totalAmountTextView.setText(total_cost+" "+getString(R.string.Rs));
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -258,7 +256,7 @@ public class CartFragment extends Fragment {
                     service_type="(No Service)";
             }
             holder.textViewServiceType.setText(service_type);
-            holder.textViewClothCost.setText(Integer.toString(dataList.get(position).getCost())+" $");
+            holder.textViewClothCost.setText(Integer.toString(dataList.get(position).getCost())+" "+getString(R.string.Rs));
 
             holder.delete_item.setOnClickListener(new View.OnClickListener() {
                 @Override

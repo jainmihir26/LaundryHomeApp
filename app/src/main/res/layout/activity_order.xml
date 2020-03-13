@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.Order"
     android:orientation="vertical"
+    android:weightSum="20"
     >
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
-
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="1.5"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -43,8 +38,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1.5"
+            >
 
             <TextView
                 android:id="@+id/pickup_order_details"
@@ -64,54 +61,60 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:alpha=".5"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/black" />
 
         <TextView
             android:id="@+id/address_order"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
             android:text="A-209 Nirman Ajinkyatara Near Rajgad Boys Hostel Sinhgad Institutes Punr,411041"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:layout_weight="1.5"
+            />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:alpha=".5"
             android:background="@android:color/darker_gray" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="Your Clothes"
             android:textColor="@color/black"
             android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_weight="1.2"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_order"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
-            android:layout_marginTop="10dp" />
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="6.8"
+            />
 
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/add_more_textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:textSize="20sp"
         android:textStyle="bold"
         android:fontFamily="sans-serif"
+        android:layout_marginTop="10dp"
         android:text="Add More"
-        android:layout_marginBottom="60dp"
         android:layout_marginLeft="10dp"
         android:layout_above="@+id/LinearLayoutPay"
-        android:textColor="@color/active_dots"/>
+        android:textColor="@color/active_dots"
+        android:layout_weight="1"
+        />
 
 
     <View
@@ -126,16 +129,17 @@
 
     <TextView
         android:id="@+id/have_a_promocode"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_above="@+id/LinearLayoutPay"
         android:layout_marginLeft="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
         android:fontFamily="sans-serif"
         android:text="Have Promocode?"
-        android:layout_marginBottom="20dp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_weight="1"
+        />
 
     <View
         android:layout_above="@+id/LinearLayoutPay"
@@ -156,53 +160,132 @@
         android:background="@android:color/darker_gray"
         />
 
-
     <LinearLayout
         android:layout_above="@+id/place_order_button_order"
         android:id="@+id/LinearLayoutPay"
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="bottom">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="bottom"
+        android:layout_weight="1"
+        android:weightSum="10"
+        >
 
         <TextView
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif"
-            android:text="Payable Amount"
-            android:textColor="@color/black"/>
+            android:text="Total Amount"
+            android:textColor="@color/black"
+            android:layout_weight="8"
+            />
 
         <TextView
             android:id="@+id/total_amount_textView"
-            android:layout_marginLeft="130dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="210$"
-            android:textSize="25sp"
+            android:layout_weight="2"
+            android:text="210"
+            android:layout_marginLeft="140dp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif"
             android:textColor="@color/black"/>
-
-
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_above="@+id/place_order_button_order"
+        android:id="@+id/LinearLayoutDiscount"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:gravity="bottom"
+        android:weightSum="10"
+        android:layout_weight="1"
+        >
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:text="Discount "
+            android:textColor="@color/black"/>
 
+        <TextView
+            android:id="@+id/discount_textView"
+            android:layout_marginLeft="140dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="-20"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:alpha=".5"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:layout_above="@+id/place_order_button_order"
+        android:id="@+id/LinearLayoutPayable"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:gravity="bottom"
+        android:weightSum="10"
+        android:layout_weight="1"
+        >
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:text="Payable Amount : "
+            android:textColor="@color/black"
+            android:layout_weight="8"
+            />
+        <TextView
+            android:id="@+id/payable_textView"
+            android:layout_marginLeft="130dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="190"
+            android:layout_weight="2"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/black"/>
+    </LinearLayout>
     <Button
-        android:layout_alignParentBottom="true"
         android:id="@+id/place_order_button_order"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="0dp"
         android:text="Place Order"
         android:textSize="25sp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:textStyle="bold"
+        android:layout_marginTop="10dp"
         android:fontFamily="sans-serif"
         android:background="@drawable/button_shape"
-        android:textColor="@color/active_dots"
+        android:textColor="@color/blue_navy"
+        android:layout_weight="1.5"
         />
-
-
-
-</RelativeLayout>
+</LinearLayout>

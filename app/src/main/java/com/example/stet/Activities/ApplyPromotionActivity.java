@@ -1,17 +1,20 @@
 package com.example.stet.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -20,10 +23,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.stet.Fragment.OfferFragment;
 import com.example.stet.Helper.SharedPreferencesConfig;
 import com.example.stet.Helper.Urls;
-import com.example.stet.Models.DataPromotion;
 import com.example.stet.Models.OfferData;
 import com.example.stet.R;
 
@@ -35,16 +36,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.content.ContentValues.TAG;
+
 public class ApplyPromotionActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView ;
     private ArrayList<OfferData>arrayList=new ArrayList<>();
     private MyAdapter myAdapter ;
+    private String amountToBePaid ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_promotion);
+
+         amountToBePaid=getIntent().getStringExtra("amount_to_be_paid");
+
         recyclerView=findViewById(R.id.recyclerView_applyPromotion);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(ApplyPromotionActivity.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -86,17 +93,21 @@ public class ApplyPromotionActivity extends AppCompatActivity {
                 String description = (String)jsonObject_each.get("promo_title");
                 String expiry = (String)jsonObject_each.get("expiry");
                 String title = (String)jsonObject_each.get("code");
+                double discountPercentage=(double) jsonObject_each.get("discount_per");
+                double minAmount= (double) jsonObject_each.get("min_amt");
+                double maxDiscount= (double) jsonObject_each.get("max_discount");
+
 //                data.add(
 //                        new DataPromotion(id,promo_title,expiry,code)
 //                );
-                arrayList.add(new OfferData(title,description,expiry));
+                arrayList.add(new OfferData(title,description,expiry,minAmount,discountPercentage,maxDiscount));
 
 
             }
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
-        myAdapter = new MyAdapter(ApplyPromotionActivity.this,arrayList);
+        myAdapter = new MyAdapter(ApplyPromotionActivity.this,arrayList,amountToBePaid);
         recyclerView.setAdapter(myAdapter);
 
     }
@@ -105,9 +116,12 @@ public class ApplyPromotionActivity extends AppCompatActivity {
 class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     private ArrayList<OfferData> arrayList;
     private Context context;
-    public MyAdapter(Context context,ArrayList<OfferData>arrayList){
+    private String amountToBePaid;
+
+    public MyAdapter(Context context,ArrayList<OfferData>arrayList,String amountToBePaid){
         this.context=context;
         this.arrayList=arrayList ;
+        this.amountToBePaid=amountToBePaid ;
     }
 
     @NonNull
@@ -120,7 +134,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.mTitle.setText(arrayList.get(position).getTitle());
         holder.mDescription.setText(arrayList.get(position).getDescription());
         holder.mValidity.setText(arrayList.get(position).getValidity());
@@ -128,6 +142,21 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         holder.mApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(Double.parseDouble(amountToBePaid )< (arrayList.get(position).getMinAmount())){
+                    Toast.makeText(context, "Please order above "+arrayList.get(position).getMinAmount()+" to avail this offer.", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent intent = new Intent(context,Order.class);
+                    double initAmount=Double.parseDouble(amountToBePaid );
+
+                    Log.d(TAG, "onClick: "+" Discount perce: "+String.valueOf(arrayList.get(position).getDiscountPercenrage()) );
+                    intent.putExtra("discount_percentage",String.valueOf(arrayList.get(position).getDiscountPercenrage()) );
+
+                    intent.putExtra("max_discount",String.valueOf(arrayList.get(position).getMaxDiscount()));
+
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                    context.startActivity(intent);
+                }
             }
         });
     }
@@ -149,8 +178,6 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             mDescription=itemView.findViewById(R.id.description_ApplyPromotionId);
             mValidity=itemView.findViewById(R.id.validity_ApplyPromotionId);
             mApply=itemView.findViewById(R.id.apply_buttonId);
-
         }
     }
-
 }
